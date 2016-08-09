@@ -81,6 +81,8 @@ public class StockTaskService extends GcmTaskService {
                 try {
                     urlStringBuilder.append(
                             URLEncoder.encode("\"YHOO\",\"AAPL\",\"GOOG\",\"MSFT\")", "UTF-8"));
+//                    urlStringBuilder.append(
+//                            URLEncoder.encode("\")", "UTF-8"));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }

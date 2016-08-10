@@ -48,6 +48,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
      */
     private CharSequence mTitle;
     private Intent mServiceIntent;
+    private Intent mChartIntent;
     private ItemTouchHelper mItemTouchHelper;
     private static final int CURSOR_LOADER_ID = 0;
     private QuoteCursorAdapter mCursorAdapter;
@@ -94,6 +95,9 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                     public void onItemClick(View v, int position) {
                         //TODO:
                         // do something on item click
+                        mChartIntent = new Intent(getApplicationContext(), MyStocksChartActivity.class);
+                        startActivity(mChartIntent);
+
                     }
                 }));
 

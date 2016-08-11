@@ -21,24 +21,24 @@ import com.squareup.okhttp.Response;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
- * Created by sam_chordas on 9/30/15.
- * The GCMTask service is primarily for periodic tasks. However, OnRunTask can be called directly
- * and is used for the initialization and adding task as well.
+ * Created by nickbradshaw on 8/10/16.
  */
-public class StockTaskService extends GcmTaskService {
-    private String LOG_TAG = StockTaskService.class.getSimpleName();
+public class StocksHistoryService extends GcmTaskService {
+    private String LOG_TAG = StocksHistoryService.class.getSimpleName();
 
     private OkHttpClient client = new OkHttpClient();
     private Context mContext = this;
     private StringBuilder mStoredSymbols = new StringBuilder();
     private boolean isUpdate;
 
-    public StockTaskService() {
+    public StocksHistoryService() {
     }
 
-    public StockTaskService(Context context) {
+    public StocksHistoryService(Context context) {
         mContext = context;
     }
 
@@ -57,12 +57,21 @@ public class StockTaskService extends GcmTaskService {
         if (mContext == null) {
             mContext = this;
         }
+
+        Calendar c = Calendar.getInstance();
+        System.out.println("Current time => " + c.getTime());
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = df.format(c.getTime());
+
+        Log.v(LOG_TAG, "The date is " + formattedDate);
+
         StringBuilder urlStringBuilder = new StringBuilder();
         try {
             // Base URL for the Yahoo query
             urlStringBuilder.append("https://query.yahooapis.com/v1/public/yql?q=");
-            urlStringBuilder.append(URLEncoder.encode("select * from yahoo.finance.quotes where symbol "
-                    + "in (", "UTF-8"));
+            urlStringBuilder.append(URLEncoder.encode("select * from yahoo.finance.historicaldata where symbol "
+                    + "= (", "UTF-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -143,6 +152,3 @@ public class StockTaskService extends GcmTaskService {
     }
 
 }
-
-
-

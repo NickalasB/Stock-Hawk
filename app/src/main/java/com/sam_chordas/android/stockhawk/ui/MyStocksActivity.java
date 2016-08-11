@@ -60,7 +60,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        String LOG_TAG = MyStocksActivity.class.getSimpleName();
+        final String LOG_TAG = MyStocksActivity.class.getSimpleName();
 
         super.onCreate(savedInstanceState);
         mContext = this;
@@ -83,7 +83,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 networkToast();
             }
         }
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         emptyView = findViewById(R.id.empty_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
@@ -95,22 +95,24 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                     public void onItemClick(View v, int position) {
                         //TODO:
                         // do something on item click
+                        Cursor cursor = mCursorAdapter.getCursor();
+                        cursor.moveToPosition(position);
                         mChartIntent = new Intent(getApplicationContext(), MyStocksChartActivity.class);
+
+
+                        String symbol = mCursor.getString(mCursor.getColumnIndex("symbol"));
+                        mChartIntent.putExtra("SYMBOL", symbol);
+                        String name = mCursor.getString(mCursor.getColumnIndex("bid_price"));
+                        mChartIntent.putExtra("BIDPRICE", name);
+
                         startActivity(mChartIntent);
+                        Log.v(LOG_TAG, "This should be the STOCK NAME " + symbol );
+
+
 
                     }
                 }));
 
-
-//    if (mCursor.getCount() >= 0){
-////    if (mCursor != null && (mCursor.getCount() > 0) && !isConnected) {
-//      recyclerView.setVisibility(View.GONE);
-//      emptyView.setVisibility(View.VISIBLE);
-//    } else {
-//      recyclerView.setVisibility(View.VISIBLE);
-//      emptyView.setVisibility(View.GONE);
-//
-//    }
         recyclerView.setAdapter(mCursorAdapter);
         checkAdapterIsEmpty();
 
@@ -144,10 +146,14 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                         mServiceIntent.putExtra("tag", "add");
                                         mServiceIntent.putExtra("symbol", input.toString());
                                         startService(mServiceIntent);
+
+
                                     }
+
                                 }
                             })
                             .show();
+
                 } else {
                     networkToast();
                 }
@@ -258,6 +264,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         checkAdapterIsEmpty();
         Log.v(LOG_TAG, "This should return the number of stocks  " + mCursorAdapter.getItemCount());
         Log.v(LOG_TAG, "This should return a true if list is empty " + checkAdapterIsEmpty());
+
 
 
     }

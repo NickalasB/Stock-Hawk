@@ -17,12 +17,11 @@
         android:id="@+id/chart_name_title_textview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
         app:layout_columnSpan="2"
         app:layout_columnWeight="1"
-        android:textSize="24sp"
-        tools:text="Company Name:"
-        android:text="Company Name:"/>
+        android:textSize="16sp"
+        tools:text="Name:"
+        android:text="Name:"/>
 
     <TextView
         android:id="@+id/chart_name_textview"
@@ -31,7 +30,7 @@
         android:layout_gravity="center_horizontal"
         app:layout_columnSpan="2"
         app:layout_columnWeight="1"
-        android:textSize="24sp"
+        android:textSize="16sp"
         tools:text="Alphabet" />
 
     <TextView

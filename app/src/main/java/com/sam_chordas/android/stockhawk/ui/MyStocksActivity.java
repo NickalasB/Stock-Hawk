@@ -37,6 +37,8 @@ import com.sam_chordas.android.stockhawk.service.StockIntentService;
 import com.sam_chordas.android.stockhawk.service.StockTaskService;
 import com.sam_chordas.android.stockhawk.touch_helper.SimpleItemTouchHelperCallback;
 
+import butterknife.ButterKnife;
+
 public class MyStocksActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /**
@@ -64,6 +66,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
 
         super.onCreate(savedInstanceState);
         mContext = this;
+        ButterKnife.bind(this);
         ConnectivityManager cm =
                 (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -101,13 +104,16 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
 
 
                         String symbol = mCursor.getString(mCursor.getColumnIndex("symbol"));
+//                        String name = mCursor.getString(mCursor.getColumnIndex("name"));
+                        String bid_price = mCursor.getString(mCursor.getColumnIndex("bid_price"));
+                        String percent_change = mCursor.getString(mCursor.getColumnIndex("percent_change"));
+
                         mChartIntent.putExtra("SYMBOL", symbol);
-                        String name = mCursor.getString(mCursor.getColumnIndex("bid_price"));
-                        mChartIntent.putExtra("BIDPRICE", name);
+//                        mChartIntent.putExtra("NAME", name);
+                        mChartIntent.putExtra("BIDPRICE", bid_price);
+                        mChartIntent.putExtra("PERCENT_CHANGE", percent_change);
 
                         startActivity(mChartIntent);
-                        Log.v(LOG_TAG, "This should be the STOCK NAME " + symbol );
-
 
 
                     }
@@ -248,8 +254,13 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         // This narrows the return to only the stocks that are most current.
         return new CursorLoader(this, QuoteProvider.Quotes.CONTENT_URI,
-                new String[]{QuoteColumns._ID, QuoteColumns.SYMBOL, QuoteColumns.BIDPRICE,
-                        QuoteColumns.PERCENT_CHANGE, QuoteColumns.CHANGE, QuoteColumns.ISUP},
+                new String[]{QuoteColumns._ID,
+                        QuoteColumns.SYMBOL,
+                        QuoteColumns.BIDPRICE,
+                        QuoteColumns.PERCENT_CHANGE,
+                        QuoteColumns.CHANGE,
+//                        QuoteColumns.NAME,
+                        QuoteColumns.ISUP},
                 QuoteColumns.ISCURRENT + " = ?",
                 new String[]{"1"},
                 null);
@@ -264,6 +275,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         checkAdapterIsEmpty();
         Log.v(LOG_TAG, "This should return the number of stocks  " + mCursorAdapter.getItemCount());
         Log.v(LOG_TAG, "This should return a true if list is empty " + checkAdapterIsEmpty());
+//        Log.v(LOG_TAG, "And the name of the stock is... " + QuoteColumns.NAME);
 
 
 

@@ -20,6 +20,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by nickbradshaw on 8/9/16.
  * Chart code pulled from the opensource library: MPAndroidChart created by PhilJay
@@ -27,46 +30,46 @@ import java.util.Calendar;
  */
 public class MyStocksChartActivity extends AppCompatActivity {
 
-    private Calendar pastCalendar;
-    private Calendar currentCalendar;
+    public Calendar pastCalendar;
+    public Calendar currentCalendar;
     private Legend chartLegend;
     private XAxis xAxis;
     private YAxis yAxisLeft;
     private YAxis yAxisRight;
-//    private TextView symbolTextView;
+
+    @BindView(R.id.chart_name_textview)
+    TextView nameTextView;
+
+    @BindView(R.id.chart_symbol_textview)
+    TextView symbolTextView;
+
+    @BindView(R.id.chart_bid_price_textview)
+    TextView bidPriceTextView;
+
+    @BindView(R.id.chart_percent_change_textview)
+    TextView percentChangeTextView;
+
+    @BindView(R.id.chart1)
+    LineChart lineChart;
+
 
     private String LOG_TAG = MyStocksChartActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_line_graph);
-
-        final TextView symbolTextView = (TextView) findViewById(R.id.chart_symbol_textview);
-        final TextView nameTextView = (TextView) findViewById(R.id.chart_name_textview);
+        setContentView(R.layout.detail_my_stocks);
+        ButterKnife.bind(this);
 
         Intent mChartIntent = getIntent();
         if (mChartIntent.hasExtra("SYMBOL"))
             if (symbolTextView != null) {
+//                nameTextView.setText(getIntent().getStringExtra("NAME"));
                 symbolTextView.setText(getIntent().getStringExtra("SYMBOL").toUpperCase());
+                bidPriceTextView.setText(getIntent().getStringExtra("BIDPRICE"));
+                percentChangeTextView.setText(getIntent().getStringExtra("PERCENT_CHANGE"));
+
             }
-        if (nameTextView != null){
-            nameTextView.setText(getIntent().getStringExtra("BIDPRICE"));
-        }
-
-
-
-        pastCalendar = Calendar.getInstance();
-        pastCalendar.add(Calendar.YEAR, +-1);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
-
-        currentCalendar = Calendar.getInstance();
-        String presentDate = dateFormat.format(currentCalendar.getTime());
-
-        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
-        Log.v(LOG_TAG, "Today's date is " + presentDate);
-
 
         LineChart lineChart = (LineChart) findViewById(R.id.chart1);
         lineChart.setNoDataTextDescription("No historical data yet");
@@ -122,6 +125,30 @@ public class MyStocksChartActivity extends AppCompatActivity {
         lineChart.setData(data);
         lineChart.animateY(5000);
 
+        pastCalendar = Calendar.getInstance();
+        pastCalendar.add(Calendar.YEAR, +-1);
+
+
     }
+
+    public void currentDate() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        currentCalendar = Calendar.getInstance();
+        String presentDate = dateFormat.format(currentCalendar.getTime());
+
+
+        Log.v(LOG_TAG, "Today's date is " + presentDate);
+    }
+
+    public void aYearAgo() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        pastCalendar = Calendar.getInstance();
+        pastCalendar.add(Calendar.YEAR, +-1);
+        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
+        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
+
+    }
+
+
 }
 

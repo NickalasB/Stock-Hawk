@@ -119,6 +119,9 @@ public class StockTaskService extends GcmTaskService {
             try {
                 getResponse = fetchData(urlString);
                 result = GcmNetworkManager.RESULT_SUCCESS;
+
+                Log.v(LOG_TAG, "here's the URL you need dude " + urlString);
+
                 try {
                     ContentValues contentValues = new ContentValues();
                     // update ISCURRENT to 0 (false) so new data is current
@@ -133,6 +136,8 @@ public class StockTaskService extends GcmTaskService {
                     }
                 } catch (RemoteException | OperationApplicationException e) {
                     Log.e(LOG_TAG, "Error applying batch insert", e);
+
+
                 }
             } catch (IOException e) {
                 e.printStackTrace();

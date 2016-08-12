@@ -28,6 +28,8 @@ public class Utils {
         JSONObject jsonObject = null;
         JSONArray resultsArray = null;
 
+
+
         try {
             jsonObject = new JSONObject(JSON);
             if (jsonObject != null && jsonObject.length() != 0) {
@@ -38,12 +40,14 @@ public class Utils {
                             .getJSONObject("quote");
                     //this is where we check to make sure the stock symbol name isn't "null"
                     if (jsonObject.getString("Name").equals("null")) {
+
                         NO_SYMBOL = true;
                     } else {
                         NO_SYMBOL = false;
                         //if the symbol doesn't = "null" then we add it to the database
                         batchOperations.add(buildBatchOperation(jsonObject));
-                        Log.v(LOG_TAG,"If there's a valid stock this will say FALSE " + NO_SYMBOL);
+
+
                     }
                 } else {
                     resultsArray = jsonObject.getJSONObject("results").getJSONArray("quote");
@@ -52,15 +56,21 @@ public class Utils {
                         for (int i = 0; i < resultsArray.length(); i++) {
                             jsonObject = resultsArray.getJSONObject(i);
                             batchOperations.add(buildBatchOperation(jsonObject));
+
                         }
                     }
+                    Log.v(LOG_TAG, "If there's a valid stock this will say FALSE " + NO_SYMBOL);
                 }
+
             }
+
         } catch (JSONException e) {
+
             Log.e(LOG_TAG, "String to JSON failed: " + e);
 
         }
         return batchOperations;
+
     }
 
 
@@ -92,8 +102,6 @@ public class Utils {
         ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(
                 QuoteProvider.Quotes.CONTENT_URI);
         try {
-
-
             String change = jsonObject.getString("Change");
             if (change != null) {
                 builder.withValue(QuoteColumns.SYMBOL, jsonObject.getString("symbol"));
@@ -108,6 +116,8 @@ public class Utils {
             } else {
                 builder.withValue(QuoteColumns.ISUP, 1);
             }
+//            builder.withValue(QuoteColumns.NAME, jsonObject.getString("Name"));
+
 
         } catch (JSONException e) {
             e.printStackTrace();

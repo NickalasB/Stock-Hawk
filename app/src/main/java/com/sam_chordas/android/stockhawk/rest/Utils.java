@@ -119,7 +119,7 @@ public class Utils {
             } else {
                 builder.withValue(QuoteColumns.ISUP, 1);
             }
-//            builder.withValue(QuoteColumns.NAME, jsonObject.getString("Name"));
+            builder.withValue(QuoteColumns.NAME, jsonObject.getString("Name"));
 
 
         } catch (JSONException e) {

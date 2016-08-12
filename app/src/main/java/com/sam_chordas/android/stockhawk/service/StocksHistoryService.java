@@ -37,6 +37,8 @@
 //    private StringBuilder mStoredSymbols = new StringBuilder();
 //    private boolean isUpdate;
 //    private CursorAdapter mCursorAdapter;
+//    public Calendar pastCalendar;
+//    public Calendar currentCalendar;
 //
 //    public StocksHistoryService() {
 //    }
@@ -44,6 +46,28 @@
 //    public StocksHistoryService(Context context) {
 //        mContext = context;
 //    }
+//
+//
+//    public String  currentDate() {
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        currentCalendar = Calendar.getInstance();
+//        String presentDate = dateFormat.format(currentCalendar.getTime());
+//        Log.v(LOG_TAG, "Today's date is " + presentDate);
+//        return presentDate;
+//    }
+//
+//
+//
+//    public String aYearAgo() {
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        pastCalendar = Calendar.getInstance();
+//        pastCalendar.add(Calendar.YEAR, +-1);
+//        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
+//        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
+//        return oneYearAgo;
+//
+//    }
+//
 //
 //    String fetchData(String url) throws IOException {
 //        Request request = new Request.Builder()
@@ -61,6 +85,8 @@
 //            mContext = this;
 //        }
 //
+//        String getResponse;
+//        int result = GcmNetworkManager.RESULT_FAILURE;
 //
 //
 //        StringBuilder urlStringBuilder = new StringBuilder();
@@ -68,7 +94,7 @@
 //        try {
 //            urlStringBuilder.append(URLEncoder.encode("select * from yahoo.finance.historicaldata " +
 //                            "where symbol = \"" + mCursorAdapter.getCursor().getString(1).toString() + "\" " +
-//                            "and endDate = \"" + MyStocksChartActivity.aYearAgo() + "\" and startDAte = \"" + MyStocksChartActivity.currentDate() + "\" "
+//                            "and endDate = \"" + aYearAgo() + "\" and startDAte = \"" + currentDate() + "\" "
 //                    , "UTF-8"));
 ////
 ////            urlStringBuilder.append(URLEncoder.encode("select * from yahoo.finance.historicaldata where symbol = \"GOO\""

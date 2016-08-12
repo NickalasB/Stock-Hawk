@@ -3,7 +3,6 @@ package com.sam_chordas.android.stockhawk.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -16,9 +15,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.sam_chordas.android.stockhawk.R;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,8 +27,7 @@ import butterknife.ButterKnife;
  */
 public class MyStocksChartActivity extends AppCompatActivity {
 
-    public Calendar pastCalendar;
-    public Calendar currentCalendar;
+
     private Legend chartLegend;
     private XAxis xAxis;
     private YAxis yAxisLeft;
@@ -125,29 +121,11 @@ public class MyStocksChartActivity extends AppCompatActivity {
         lineChart.setData(data);
         lineChart.animateY(5000);
 
-        pastCalendar = Calendar.getInstance();
-        pastCalendar.add(Calendar.YEAR, +-1);
 
 
-    }
-
-    public void currentDate() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        currentCalendar = Calendar.getInstance();
-        String presentDate = dateFormat.format(currentCalendar.getTime());
-
-
-        Log.v(LOG_TAG, "Today's date is " + presentDate);
-    }
-
-    public void aYearAgo() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        pastCalendar = Calendar.getInstance();
-        pastCalendar.add(Calendar.YEAR, +-1);
-        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
-        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
 
     }
+
 
 
 }

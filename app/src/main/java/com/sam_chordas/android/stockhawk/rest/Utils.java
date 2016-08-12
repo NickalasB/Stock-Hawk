@@ -48,6 +48,7 @@ public class Utils {
                         batchOperations.add(buildBatchOperation(jsonObject));
 
 
+
                     }
                 } else {
                     resultsArray = jsonObject.getJSONObject("results").getJSONArray("quote");
@@ -60,7 +61,9 @@ public class Utils {
                         }
                     }
                     Log.v(LOG_TAG, "If there's a valid stock this will say FALSE " + NO_SYMBOL);
+
                 }
+                Log.v(LOG_TAG, "Company name is " + jsonObject.getString("Name"));
 
             }
 

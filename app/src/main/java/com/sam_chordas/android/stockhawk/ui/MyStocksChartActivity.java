@@ -60,7 +60,7 @@ public class MyStocksChartActivity extends AppCompatActivity {
         Intent mChartIntent = getIntent();
         if (mChartIntent.hasExtra("SYMBOL"))
             if (symbolTextView != null) {
-//                nameTextView.setText(getIntent().getStringExtra("NAME"));
+                nameTextView.setText(getIntent().getStringExtra("NAME"));
                 symbolTextView.setText(getIntent().getStringExtra("SYMBOL").toUpperCase());
                 bidPriceTextView.setText(getIntent().getStringExtra("BIDPRICE"));
                 percentChangeTextView.setText(getIntent().getStringExtra("PERCENT_CHANGE"));

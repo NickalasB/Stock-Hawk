@@ -106,13 +106,14 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                         String symbol = mCursor.getString(mCursor.getColumnIndex("symbol"));
                         String bid_price = mCursor.getString(mCursor.getColumnIndex("bid_price"));
                         String percent_change = mCursor.getString(mCursor.getColumnIndex("percent_change"));
-//                        String name = mCursor.getString(mCursor.getColumnIndex("Name"));
+                        String name = mCursor.getString(mCursor.getColumnIndex("Name"));
 
 
                         mChartIntent.putExtra("SYMBOL", symbol);
                         mChartIntent.putExtra("BIDPRICE", bid_price);
                         mChartIntent.putExtra("PERCENT_CHANGE", percent_change);
-//                        mChartIntent.putExtra("NAME", name);
+                        mChartIntent.putExtra("NAME", name);
+
 
 
                         startActivity(mChartIntent);
@@ -261,7 +262,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                         QuoteColumns.BIDPRICE,
                         QuoteColumns.PERCENT_CHANGE,
                         QuoteColumns.CHANGE,
-//                        QuoteColumns.NAME,
+                        QuoteColumns.NAME,
                         QuoteColumns.ISUP},
                 QuoteColumns.ISCURRENT + " = ?",
                 new String[]{"1"},

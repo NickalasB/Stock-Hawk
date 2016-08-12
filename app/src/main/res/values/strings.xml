@@ -1,6 +1,9 @@
 <resources>
   <string name="app_name">Stock Hawk</string>
 
+  <string name="detail_activity_title">Stock Details</string>
+
+
   <string name="action_example">Example action</string>
 
   <string name="action_settings">Settings</string>

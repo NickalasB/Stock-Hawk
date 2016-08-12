@@ -262,7 +262,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                         QuoteColumns.BIDPRICE,
                         QuoteColumns.PERCENT_CHANGE,
                         QuoteColumns.CHANGE,
-                        QuoteColumns.NAME,
+//                        QuoteColumns.NAME,
                         QuoteColumns.ISUP},
                 QuoteColumns.ISCURRENT + " = ?",
                 new String[]{"1"},

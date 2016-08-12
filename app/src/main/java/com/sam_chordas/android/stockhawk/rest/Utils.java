@@ -104,7 +104,9 @@ public class Utils {
     public static ContentProviderOperation buildBatchOperation(JSONObject jsonObject) {
         ContentProviderOperation.Builder builder = ContentProviderOperation.newInsert(
                 QuoteProvider.Quotes.CONTENT_URI);
+
         try {
+
             String change = jsonObject.getString("Change");
             if (change != null) {
                 builder.withValue(QuoteColumns.SYMBOL, jsonObject.getString("symbol"));
@@ -113,13 +115,14 @@ public class Utils {
                         jsonObject.getString("ChangeinPercent"), true));
                 builder.withValue(QuoteColumns.CHANGE, truncateChange(change, false));
                 builder.withValue(QuoteColumns.ISCURRENT, 1);
-                builder.withValue(QuoteColumns.NAME, jsonObject.getString("Name"));
             }
             if (change.charAt(0) == '-') {
                 builder.withValue(QuoteColumns.ISUP, 0);
             } else {
                 builder.withValue(QuoteColumns.ISUP, 1);
             }
+            builder.withValue(QuoteColumns.NAME, jsonObject.getString("Name"));
+
 
 
         } catch (JSONException e) {

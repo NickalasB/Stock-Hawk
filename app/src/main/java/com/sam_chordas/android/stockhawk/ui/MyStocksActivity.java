@@ -232,6 +232,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -239,19 +240,24 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        switch (id) {
+            case R.id.action_change_units:
+                Utils.showPercent = !Utils.showPercent;
+                this.getContentResolver().notifyChange(QuoteProvider.Quotes.CONTENT_URI, null);
+                //check to see if percent change or price change is selected then set
+                //the respective icon
+                if (Utils.showPercent)
+                    item.setIcon(R.drawable.ic_attach_percentage__white_24dp);
+                else
+                    item.setIcon(R.drawable.ic_attach_money_white_24dp);
+                return true;
+            default:
 
-        if (id == R.id.action_change_units) {
-            // this is for changing stock changes from percent value to dollar value
-            Utils.showPercent = !Utils.showPercent;
-            this.getContentResolver().notifyChange(QuoteProvider.Quotes.CONTENT_URI, null);
-        }
+                return super.onOptionsItemSelected(item);
 
-        return super.onOptionsItemSelected(item);
+        }
     }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {

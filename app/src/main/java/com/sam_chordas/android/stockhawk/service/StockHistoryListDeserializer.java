@@ -1,7 +1,5 @@
 package com.sam_chordas.android.stockhawk.service;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -36,7 +34,7 @@ public class StockHistoryListDeserializer implements JsonDeserializer<List<Stock
         for (JsonElement element : content) {
             entries.add(new Gson().fromJson(element, StockHistory.class));
 
-            Log.v(LOG_TAG, "This should be a list of stock history " + entries);
+//            Log.v(LOG_TAG, "This should be a list of stock history " + entries);
 
         }
         return entries;

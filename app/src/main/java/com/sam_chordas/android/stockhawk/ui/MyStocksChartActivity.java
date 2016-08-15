@@ -21,7 +21,6 @@ import com.sam_chordas.android.stockhawk.data.StockItem;
 import com.sam_chordas.android.stockhawk.data.mappers.StockHistoryMapper;
 import com.sam_chordas.android.stockhawk.service.YahooStockServiceFactory;
 
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,8 +45,6 @@ public class MyStocksChartActivity extends AppCompatActivity {
     private YAxis yAxisLeft;
     private YAxis yAxisRight;
     private StockItem stockItem;
-
-
 
 
     private ArrayList<StockItem> mStockArrayList;
@@ -92,7 +89,6 @@ public class MyStocksChartActivity extends AppCompatActivity {
             }
 
 
-
         mStockArrayList = new ArrayList<>();
         String stockSymbolText = symbolTextView.getText().toString();
         loadStockHistory(stockSymbolText);
@@ -114,7 +110,6 @@ public class MyStocksChartActivity extends AppCompatActivity {
 
 
         lineChart.setNoDataTextDescription("No historical data yet");
-
 
 
 //        entries.add(new Entry(entries.toArray(float), 0));
@@ -151,24 +146,24 @@ public class MyStocksChartActivity extends AppCompatActivity {
     }
 
 
-
     @NonNull
     private LineData getLineData(List<Entry> entries) {
         LineDataSet dataset = new LineDataSet(entries, "Highest Stock Price");
 
         ArrayList<String> labels = new ArrayList<String>();
-        labels.add("January");
-        labels.add("February");
-        labels.add("March");
-        labels.add("April");
-        labels.add("May");
-        labels.add("June");
-        labels.add("July");
-        labels.add("August");
-        labels.add("September");
-        labels.add("October");
-        labels.add("November");
-        labels.add("December");
+        labels.add(getAYearAgo());
+        labels.add(getElevenMonthsAgo());
+        labels.add(getTenMonthsAgo());
+        labels.add(getNineMonthsAgo());
+        labels.add(getEightMonthsAgo());
+        labels.add(getSevenMonthsAgo());
+        labels.add(getSixMonthsAgo());
+        labels.add(getFiveMonthsAgo());
+        labels.add(getFourMonthsAgo());
+        labels.add(getThreeMonthsAgo());
+        labels.add(getTwoMonthsAgo());
+        labels.add(getOneMonthsAgo());
+        labels.add(getCurrentDate());
 
 
         LineData data = new LineData(labels, dataset);
@@ -181,12 +176,12 @@ public class MyStocksChartActivity extends AppCompatActivity {
     }
 
     private void loadStockHistory(String stockSymbolText) {
-        String historyQuery = "select * from yahoo.finance.historicaldata where symbol = \"" + stockSymbolText.toUpperCase() +"\" and startDate = \"" + getAYearAgo() + "\" and endDate =\"" + getCurrentDate() + "\"";
+        String historyQuery = "select * from yahoo.finance.historicaldata where symbol = \"" + stockSymbolText.toUpperCase() + "\" and startDate = \"" + getAYearAgo() + "\" and endDate =\"" + getCurrentDate() + "\"";
 
-        new YahooStockServiceFactory().create().stockHistory(URLEncoder.encode(historyQuery)).enqueue(new Callback<List<StockHistory>>() {
+        new YahooStockServiceFactory().create().stockHistory(historyQuery).enqueue(new Callback<List<StockHistory>>() {
             @Override
             public void onResponse(Call<List<StockHistory>> call, Response<List<StockHistory>> response) {
-                if (response.isSuccessful()){
+                if (response.isSuccessful()) {
                     lineChart.setData(getLineData(new StockHistoryMapper().mapStockHistoryForMonthlyHighestClose(response.body())));
                 }
             }
@@ -216,6 +211,118 @@ public class MyStocksChartActivity extends AppCompatActivity {
         return oneYearAgo;
 
     }
+
+    public String getElevenMonthsAgo() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
+        pastCalendar = Calendar.getInstance();
+        pastCalendar.add(Calendar.MONTH, +-11);
+        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
+        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
+        return oneYearAgo;
+
+    }
+
+    public String getTenMonthsAgo() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
+        pastCalendar = Calendar.getInstance();
+        pastCalendar.add(Calendar.MONTH, +-10);
+        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
+        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
+        return oneYearAgo;
+
+    }
+
+    public String getNineMonthsAgo() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
+        pastCalendar = Calendar.getInstance();
+        pastCalendar.add(Calendar.MONTH, +-9);
+        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
+        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
+        return oneYearAgo;
+
+    }
+
+    public String getEightMonthsAgo() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
+        pastCalendar = Calendar.getInstance();
+        pastCalendar.add(Calendar.MONTH, +-8);
+        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
+        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
+        return oneYearAgo;
+
+    }
+
+    public String getSevenMonthsAgo() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
+        pastCalendar = Calendar.getInstance();
+        pastCalendar.add(Calendar.MONTH, +-7);
+        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
+        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
+        return oneYearAgo;
+
+    }
+
+    public String getSixMonthsAgo() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
+        pastCalendar = Calendar.getInstance();
+        pastCalendar.add(Calendar.MONTH, +-6);
+        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
+        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
+        return oneYearAgo;
+
+    }
+
+    public String getFiveMonthsAgo() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
+        pastCalendar = Calendar.getInstance();
+        pastCalendar.add(Calendar.MONTH, +-5);
+        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
+        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
+        return oneYearAgo;
+
+    }
+
+    public String getFourMonthsAgo() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
+        pastCalendar = Calendar.getInstance();
+        pastCalendar.add(Calendar.MONTH, +-4);
+        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
+        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
+        return oneYearAgo;
+
+    }
+
+    public String getThreeMonthsAgo() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
+        pastCalendar = Calendar.getInstance();
+        pastCalendar.add(Calendar.MONTH, +-3);
+        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
+        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
+        return oneYearAgo;
+
+    }
+
+    public String getTwoMonthsAgo() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
+        pastCalendar = Calendar.getInstance();
+        pastCalendar.add(Calendar.MONTH, +-2);
+        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
+        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
+        return oneYearAgo;
+
+    }
+
+    public String getOneMonthsAgo() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
+        pastCalendar = Calendar.getInstance();
+        pastCalendar.add(Calendar.MONTH, +-1);
+        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
+        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
+        return oneYearAgo;
+
+    }
+
+
 
 }
 

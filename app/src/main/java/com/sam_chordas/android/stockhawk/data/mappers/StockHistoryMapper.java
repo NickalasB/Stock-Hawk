@@ -22,10 +22,13 @@ public class StockHistoryMapper {
         float currentHigh = 0;
         int chartIndex = 0;
 
-        for (int i = 0; i < stockHistoryList.size(); i++) {
+
+        for (int i = stockHistoryList.size() - 1; i >= 0; i--) {
+//        for (int i = 0; i < stockHistoryList.size(); i++) {
+
             StockHistory stockHistory = stockHistoryList.get(i);
             Calendar stockHistoryCalendar = convertStringToDate(stockHistory.getDate());
-            float stockHistoryClosePrice = Float.parseFloat(stockHistory.getClose());
+            float stockHistoryHighPrice = Float.parseFloat(stockHistory.getHigh());
             int stockHistoryCalendarMonth = stockHistoryCalendar.get(Calendar.MONTH);
 
             if (currentMonth != stockHistoryCalendarMonth) {
@@ -36,8 +39,8 @@ public class StockHistoryMapper {
                 }
                 currentMonth = stockHistoryCalendarMonth;
             }
-            if (currentHigh < stockHistoryClosePrice) {
-                currentHigh = stockHistoryClosePrice;
+            if (currentHigh < stockHistoryHighPrice) {
+                currentHigh = stockHistoryHighPrice;
             }
             if (i == stockHistoryList.size() - 1) {
                 entries.add(new Entry(currentHigh, chartIndex));

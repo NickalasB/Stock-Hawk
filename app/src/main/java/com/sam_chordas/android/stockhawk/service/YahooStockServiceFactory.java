@@ -32,12 +32,13 @@ public class YahooStockServiceFactory {
 
     @NonNull
     private GsonConverterFactory getFactory() {
-
-
         GsonBuilder gsonBuilder = new GsonBuilder();
+
+        StockHistoryListDeserializer mStockHistoryListDeserializer = new StockHistoryListDeserializer();
+
         Type type = new TypeToken<List<StockHistory>>() {}.getType();
 
-        gsonBuilder.registerTypeAdapter(type, new StockHistoryListDeserializer());
+        gsonBuilder.registerTypeAdapter(type, mStockHistoryListDeserializer);
 
         return GsonConverterFactory.create(gsonBuilder.create());
     }

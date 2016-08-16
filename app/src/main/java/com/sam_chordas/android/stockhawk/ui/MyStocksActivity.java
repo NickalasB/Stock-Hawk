@@ -37,6 +37,8 @@ import com.sam_chordas.android.stockhawk.service.StockIntentService;
 import com.sam_chordas.android.stockhawk.service.StockTaskService;
 import com.sam_chordas.android.stockhawk.touch_helper.SimpleItemTouchHelperCallback;
 
+import butterknife.ButterKnife;
+
 public class MyStocksActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     /**
@@ -48,6 +50,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
      */
     private CharSequence mTitle;
     private Intent mServiceIntent;
+    private Intent mChartIntent;
     private ItemTouchHelper mItemTouchHelper;
     private static final int CURSOR_LOADER_ID = 0;
     private QuoteCursorAdapter mCursorAdapter;
@@ -59,10 +62,11 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        String LOG_TAG = MyStocksActivity.class.getSimpleName();
+        final String LOG_TAG = MyStocksActivity.class.getSimpleName();
 
         super.onCreate(savedInstanceState);
         mContext = this;
+        ButterKnife.bind(this);
         ConnectivityManager cm =
                 (ConnectivityManager) mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
 
@@ -82,7 +86,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 networkToast();
             }
         }
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         emptyView = findViewById(R.id.empty_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         getLoaderManager().initLoader(CURSOR_LOADER_ID, null, this);
@@ -94,19 +98,30 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                     public void onItemClick(View v, int position) {
                         //TODO:
                         // do something on item click
+                        Cursor cursor = mCursorAdapter.getCursor();
+                        cursor.moveToPosition(position);
+                        mChartIntent = new Intent(getApplicationContext(), MyStocksChartActivity.class);
+
+
+                        String symbol = mCursor.getString(mCursor.getColumnIndex("symbol"));
+                        String bid_price = mCursor.getString(mCursor.getColumnIndex("bid_price"));
+                        String percent_change = mCursor.getString(mCursor.getColumnIndex("percent_change"));
+                        String name = mCursor.getString(mCursor.getColumnIndex("Name"));
+
+
+                        mChartIntent.putExtra("SYMBOL", symbol);
+                        mChartIntent.putExtra("BIDPRICE", bid_price);
+                        mChartIntent.putExtra("PERCENT_CHANGE", percent_change);
+                        mChartIntent.putExtra("NAME", name);
+
+
+
+                        startActivity(mChartIntent);
+
+
                     }
                 }));
 
-
-//    if (mCursor.getCount() >= 0){
-////    if (mCursor != null && (mCursor.getCount() > 0) && !isConnected) {
-//      recyclerView.setVisibility(View.GONE);
-//      emptyView.setVisibility(View.VISIBLE);
-//    } else {
-//      recyclerView.setVisibility(View.VISIBLE);
-//      emptyView.setVisibility(View.GONE);
-//
-//    }
         recyclerView.setAdapter(mCursorAdapter);
         checkAdapterIsEmpty();
 
@@ -140,10 +155,14 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                         mServiceIntent.putExtra("tag", "add");
                                         mServiceIntent.putExtra("symbol", input.toString());
                                         startService(mServiceIntent);
+
+
                                     }
+
                                 }
                             })
                             .show();
+
                 } else {
                     networkToast();
                 }
@@ -213,6 +232,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -220,26 +240,36 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        switch (id) {
+            case R.id.action_change_units:
+                Utils.showPercent = !Utils.showPercent;
+                this.getContentResolver().notifyChange(QuoteProvider.Quotes.CONTENT_URI, null);
+                //check to see if percent change or price change is selected then set
+                //the respective icon
+                if (Utils.showPercent)
+                    item.setIcon(R.drawable.ic_attach_percentage__white_24dp);
+                else
+                    item.setIcon(R.drawable.ic_attach_money_white_24dp);
+                return true;
+            default:
 
-        if (id == R.id.action_change_units) {
-            // this is for changing stock changes from percent value to dollar value
-            Utils.showPercent = !Utils.showPercent;
-            this.getContentResolver().notifyChange(QuoteProvider.Quotes.CONTENT_URI, null);
-        }
+                return super.onOptionsItemSelected(item);
 
-        return super.onOptionsItemSelected(item);
+        }
     }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         // This narrows the return to only the stocks that are most current.
         return new CursorLoader(this, QuoteProvider.Quotes.CONTENT_URI,
-                new String[]{QuoteColumns._ID, QuoteColumns.SYMBOL, QuoteColumns.BIDPRICE,
-                        QuoteColumns.PERCENT_CHANGE, QuoteColumns.CHANGE, QuoteColumns.ISUP},
+                new String[]{QuoteColumns._ID,
+                        QuoteColumns.SYMBOL,
+                        QuoteColumns.BIDPRICE,
+                        QuoteColumns.PERCENT_CHANGE,
+                        QuoteColumns.CHANGE,
+                        QuoteColumns.NAME,
+                        QuoteColumns.ISUP},
                 QuoteColumns.ISCURRENT + " = ?",
                 new String[]{"1"},
                 null);
@@ -254,6 +284,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         checkAdapterIsEmpty();
         Log.v(LOG_TAG, "This should return the number of stocks  " + mCursorAdapter.getItemCount());
         Log.v(LOG_TAG, "This should return a true if list is empty " + checkAdapterIsEmpty());
+//        Log.v(LOG_TAG, "And the name of the stock is... " + QuoteColumns.NAME);
+
 
 
     }

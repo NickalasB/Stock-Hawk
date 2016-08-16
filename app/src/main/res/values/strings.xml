@@ -1,6 +1,9 @@
 <resources>
   <string name="app_name">Stock Hawk</string>
 
+  <string name="detail_activity_title">Stock Details</string>
+
+
   <string name="action_example">Example action</string>
 
   <string name="action_settings">Settings</string>
@@ -9,8 +12,14 @@
   <string name="content_test">Search for a Stock Symbol</string>
   <string name="input_hint">FB</string>
   <string name="input_prefill"></string>
-  <string name="network_toast">Uh-oh! This app requires an internet connection</string>
+
+  <string name="network_toast" translatable="true">Uh-oh! This app requires an internet connection</string>
   <string name="invalid_stock_toast" translatable="true">That is not a valid stock symbol</string>
   <string name="empty_stocks" translatable="true">No Stock Information Available</string>
+
+  <string name="chart_description_string" translatable="true">Highest closing price/month</string>
+  <string name="chart_no_data_string" translatable="true">No historical data yet</string>
+
+
 
 </resources>

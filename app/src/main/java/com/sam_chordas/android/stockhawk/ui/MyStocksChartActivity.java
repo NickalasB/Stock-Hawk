@@ -66,9 +66,7 @@ public class MyStocksChartActivity extends AppCompatActivity {
     @BindView(R.id.chart1)
     LineChart lineChart;
 
-    private Calendar pastCalendar;
-    private Calendar currentCalendar;
-
+    private Calendar calendar;
 
     private String LOG_TAG = MyStocksChartActivity.class.getSimpleName();
 
@@ -77,7 +75,6 @@ public class MyStocksChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_my_stocks);
         ButterKnife.bind(this);
-
 
         Intent mChartIntent = getIntent();
         if (mChartIntent.hasExtra("SYMBOL"))
@@ -88,43 +85,17 @@ public class MyStocksChartActivity extends AppCompatActivity {
                 percentChangeTextView.setText(getIntent().getStringExtra("PERCENT_CHANGE"));
             }
 
-
         mStockArrayList = new ArrayList<>();
         String stockSymbolText = symbolTextView.getText().toString();
         loadStockHistory(stockSymbolText);
 
+        LineData data = getLineData(new ArrayList<Entry>());
+        lineChart.setNoDataTextDescription(getString(R.string.chart_no_data_string));
+        lineChart.setData(data);
+        lineChart.animateY(5000);
+        lineChart.setDescription(getString(R.string.chart_description_string));
+        lineChart.setDescriptionColor(getResources().getColor(R.color.common_plus_signin_btn_text_light));
 
-//
-//        StringBuilder urlStringBuilder = new StringBuilder();
-//        //base url for the yahoo stock history query
-//        urlStringBuilder.append("https://query.yahooapis.com/v1/public/yql?q=");
-//        //the guts of the query
-//        String historyQuery = "select * from yahoo.finance.historicaldata where symbol = \"" + stockSymbolText.toUpperCase() +"\" and startDate = \"" + aYearAgo + "\" and endDate =\"" + currentDate + "\"";
-//        urlStringBuilder.append(URLEncoder.encode(historyQuery));
-//        urlStringBuilder.append("&format=json&diagnostics=true&env=store%3A%2F%2Fdatatables."
-//                + "org%2Falltableswithkeys&callback=");
-
-
-//        Log.v(LOG_TAG, "This should be the corresponding symbol you just clicked on " + stockSymbolText);
-//        Log.v(LOG_TAG, "This should be the history link " + urlStringBuilder);
-
-
-        lineChart.setNoDataTextDescription("No historical data yet");
-
-
-//        entries.add(new Entry(entries.toArray(float), 0));
-//        entries.add(new Entry(4f, 0));
-//        entries.add(new Entry(8f, 1));
-//        entries.add(new Entry(6f, 2));
-//        entries.add(new Entry(2f, 3));
-//        entries.add(new Entry(18f, 4));
-//        entries.add(new Entry(9f, 5));
-//        entries.add(new Entry(14f, 6));
-//        entries.add(new Entry(7f, 7));
-//        entries.add(new Entry(12f, 8));
-//        entries.add(new Entry(13f, 9));
-//        entries.add(new Entry(1f, 10));
-//        entries.add(new Entry(3f, 11));
 
         chartLegend = lineChart.getLegend();
         chartLegend.setEnabled(false);
@@ -132,46 +103,33 @@ public class MyStocksChartActivity extends AppCompatActivity {
         yAxisLeft = lineChart.getAxisLeft();
         yAxisRight = lineChart.getAxisRight();
         xAxis = lineChart.getXAxis();
+
+
         yAxisLeft.setTextSize(12);
         yAxisRight.setTextSize(12);
-        xAxis.setTextColor(getResources().getColor(R.color.common_plus_signin_btn_text_light));
         yAxisLeft.setTextColor(getResources().getColor(R.color.common_plus_signin_btn_text_light));
         yAxisRight.setTextColor(getResources().getColor(R.color.common_plus_signin_btn_text_light));
+        yAxisLeft.setStartAtZero(false);
+        yAxisRight.setStartAtZero(false);
 
-        LineData data = getLineData(new ArrayList<Entry>());
-
-        lineChart.setData(data);
-        lineChart.animateY(5000);
-        loadStockHistory(stockSymbolText);
+        xAxis.setTextColor(getResources().getColor(R.color.common_plus_signin_btn_text_light));
     }
+
 
 
     @NonNull
     private LineData getLineData(List<Entry> entries) {
         LineDataSet dataset = new LineDataSet(entries, "Highest Stock Price");
 
-        ArrayList<String> labels = new ArrayList<String>();
-        labels.add(getAYearAgo());
-        labels.add(getElevenMonthsAgo());
-        labels.add(getTenMonthsAgo());
-        labels.add(getNineMonthsAgo());
-        labels.add(getEightMonthsAgo());
-        labels.add(getSevenMonthsAgo());
-        labels.add(getSixMonthsAgo());
-        labels.add(getFiveMonthsAgo());
-        labels.add(getFourMonthsAgo());
-        labels.add(getThreeMonthsAgo());
-        labels.add(getTwoMonthsAgo());
-        labels.add(getOneMonthsAgo());
-        labels.add(getCurrentDate());
-
+        //calling method we created to define labels at top of chart
+        ArrayList<String> labels = getLabels();
 
         LineData data = new LineData(labels, dataset);
         dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
-//        dataset.setDrawCubic(true);
         dataset.setDrawFilled(true);
+        dataset.setFillColor(getResources().getColor(R.color.material_blue_700));
+        dataset.setFillAlpha(125);
         dataset.setValueTextSize(10f);
-        labels.size();
         return data;
     }
 
@@ -194,135 +152,39 @@ public class MyStocksChartActivity extends AppCompatActivity {
 
     }
 
+
+    //where we define our dates
     public String getCurrentDate() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        currentCalendar = Calendar.getInstance();
-        String presentDate = dateFormat.format(currentCalendar.getTime());
+        calendar = Calendar.getInstance();
+        String presentDate = dateFormat.format(calendar.getTime());
         Log.v(LOG_TAG, "Today's date is " + presentDate);
         return presentDate;
     }
 
     public String getAYearAgo() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        pastCalendar = Calendar.getInstance();
-        pastCalendar.add(Calendar.YEAR, +-1);
-        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
+        calendar = Calendar.getInstance();
+        calendar.add(Calendar.YEAR, +-1);
+        String oneYearAgo = dateFormat.format(calendar.getTime());
         Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
         return oneYearAgo;
 
     }
 
-    public String getElevenMonthsAgo() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
-        pastCalendar = Calendar.getInstance();
-        pastCalendar.add(Calendar.MONTH, +-11);
-        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
-        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
-        return oneYearAgo;
-
+    //method that uses for loop to calculate a list of strings representing
+    // each month for the previous 12 months
+    private ArrayList<String> getLabels(){
+        ArrayList<String> labels = new ArrayList<>();
+        for (int i = 12; i >= 0 ; i--) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
+            calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH, +-i);
+            String label = dateFormat.format(calendar.getTime());
+            labels.add(label);
+        }
+        return labels;
     }
-
-    public String getTenMonthsAgo() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
-        pastCalendar = Calendar.getInstance();
-        pastCalendar.add(Calendar.MONTH, +-10);
-        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
-        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
-        return oneYearAgo;
-
-    }
-
-    public String getNineMonthsAgo() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
-        pastCalendar = Calendar.getInstance();
-        pastCalendar.add(Calendar.MONTH, +-9);
-        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
-        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
-        return oneYearAgo;
-
-    }
-
-    public String getEightMonthsAgo() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
-        pastCalendar = Calendar.getInstance();
-        pastCalendar.add(Calendar.MONTH, +-8);
-        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
-        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
-        return oneYearAgo;
-
-    }
-
-    public String getSevenMonthsAgo() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
-        pastCalendar = Calendar.getInstance();
-        pastCalendar.add(Calendar.MONTH, +-7);
-        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
-        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
-        return oneYearAgo;
-
-    }
-
-    public String getSixMonthsAgo() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
-        pastCalendar = Calendar.getInstance();
-        pastCalendar.add(Calendar.MONTH, +-6);
-        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
-        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
-        return oneYearAgo;
-
-    }
-
-    public String getFiveMonthsAgo() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
-        pastCalendar = Calendar.getInstance();
-        pastCalendar.add(Calendar.MONTH, +-5);
-        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
-        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
-        return oneYearAgo;
-
-    }
-
-    public String getFourMonthsAgo() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
-        pastCalendar = Calendar.getInstance();
-        pastCalendar.add(Calendar.MONTH, +-4);
-        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
-        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
-        return oneYearAgo;
-
-    }
-
-    public String getThreeMonthsAgo() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
-        pastCalendar = Calendar.getInstance();
-        pastCalendar.add(Calendar.MONTH, +-3);
-        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
-        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
-        return oneYearAgo;
-
-    }
-
-    public String getTwoMonthsAgo() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
-        pastCalendar = Calendar.getInstance();
-        pastCalendar.add(Calendar.MONTH, +-2);
-        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
-        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
-        return oneYearAgo;
-
-    }
-
-    public String getOneMonthsAgo() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MM-yy");
-        pastCalendar = Calendar.getInstance();
-        pastCalendar.add(Calendar.MONTH, +-1);
-        String oneYearAgo = dateFormat.format(pastCalendar.getTime());
-        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
-        return oneYearAgo;
-
-    }
-
-
 
 }
 

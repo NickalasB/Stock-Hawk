@@ -30,8 +30,7 @@
         android:paddingEnd="40dp"
         android:paddingLeft="40dp"
         android:paddingRight="40dp"
-        android:paddingStart="40dp"
-        android:paddingTop="16dp">
+        android:paddingStart="40dp">
 
         <TextView
             android:id="@+id/chart_symbol_title_textview"

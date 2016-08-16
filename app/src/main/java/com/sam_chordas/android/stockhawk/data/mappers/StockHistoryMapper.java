@@ -15,6 +15,8 @@ import java.util.List;
 public class StockHistoryMapper {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+    private String LOG_TAG = StockHistoryMapper.class.getSimpleName();
+
     public List<Entry> mapStockHistoryForMonthlyHighestClose(List<StockHistory> stockHistoryList) {
         List<Entry> entries = new ArrayList<>();
 
@@ -37,6 +39,7 @@ public class StockHistoryMapper {
                     chartIndex++;
                     currentHigh = 0;
                 }
+
                 currentMonth = stockHistoryCalendarMonth;
             }
             if (currentHigh < stockHistoryHighPrice) {
@@ -44,6 +47,8 @@ public class StockHistoryMapper {
             }
             if (i == stockHistoryList.size() - 1) {
                 entries.add(new Entry(currentHigh, chartIndex));
+                chartIndex++;
+
             }
         }
         return entries;

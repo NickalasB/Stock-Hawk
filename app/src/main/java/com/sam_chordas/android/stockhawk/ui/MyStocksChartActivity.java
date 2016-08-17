@@ -134,13 +134,13 @@ public class MyStocksChartActivity extends AppCompatActivity {
     }
 
     private void loadStockHistory(String stockSymbolText) {
-        String historyQuery = "select * from yahoo.finance.historicaldata where symbol = \"" + stockSymbolText.toUpperCase() + "\" and startDate = \"" + getAYearAgo() + "\" and endDate =\"" + getCurrentDate() + "\"";
+        String historyQuery = "select * from yahoo.finance.historicaldata where symbol = \"" + stockSymbolText.toUpperCase() + "\" and startDate = \"" + getAMonthAgo() + "\" and endDate =\"" + getCurrentDate() + "\"";
 
         new YahooStockServiceFactory().create().stockHistory(historyQuery).enqueue(new Callback<List<StockHistory>>() {
             @Override
             public void onResponse(Call<List<StockHistory>> call, Response<List<StockHistory>> response) {
                 if (response.isSuccessful()) {
-                    lineChart.setData(getLineData(new StockHistoryMapper().mapStockHistoryForMonthlyHighestClose(response.body())));
+                    lineChart.setData(getLineData(new StockHistoryMapper().mapStockHistoryForPastMonth(response.body())));
                 }
             }
 
@@ -162,24 +162,24 @@ public class MyStocksChartActivity extends AppCompatActivity {
         return presentDate;
     }
 
-    public String getAYearAgo() {
+    public String getAMonthAgo() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, +-1);
-        String oneYearAgo = dateFormat.format(calendar.getTime());
-        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
-        return oneYearAgo;
+        calendar.add(Calendar.MONTH, +-1);
+        String oneMonthAgo = dateFormat.format(calendar.getTime());
+        Log.v(LOG_TAG, "The date one month ago from today was " + oneMonthAgo);
+        return oneMonthAgo;
 
     }
 
     //method that uses for loop to calculate a list of strings representing
-    // each month for the previous 12 months
+    // each day for the previous 30 days
     private ArrayList<String> getLabels(){
         ArrayList<String> labels = new ArrayList<>();
-        for (int i = 12; i >= 0 ; i--) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
+        for (int i = 30; i >= 0 ; i--) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
             calendar = Calendar.getInstance();
-            calendar.add(Calendar.MONTH, +-i);
+            calendar.add(Calendar.DAY_OF_MONTH, +-i);
             String label = dateFormat.format(calendar.getTime());
             labels.add(label);
         }

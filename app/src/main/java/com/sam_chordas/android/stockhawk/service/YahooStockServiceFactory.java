@@ -17,6 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class YahooStockServiceFactory {
 
+    private String LOG_TAG = YahooStockServiceFactory.class.getSimpleName();
 
     public YahooStockService create(){
 
@@ -25,7 +26,6 @@ public class YahooStockServiceFactory {
                 .baseUrl("https://query.yahooapis.com/v1/public/")
                 .addConverterFactory(getFactory())
                 .build();
-
         return retrofit.create(YahooStockService.class);
     }
 

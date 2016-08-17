@@ -17,7 +17,7 @@ public class StockHistoryMapper {
 
     private String LOG_TAG = StockHistoryMapper.class.getSimpleName();
 
-    public List<Entry> mapStockHistoryForMonthlyHighestClose(List<StockHistory> stockHistoryList) {
+    public List<Entry> mapStockHistoryForPastMonth(List<StockHistory> stockHistoryList) {
         List<Entry> entries = new ArrayList<>();
 
         int currentMonth = 0;
@@ -31,7 +31,7 @@ public class StockHistoryMapper {
             StockHistory stockHistory = stockHistoryList.get(i);
             Calendar stockHistoryCalendar = convertStringToDate(stockHistory.getDate());
             float stockHistoryHighPrice = Float.parseFloat(stockHistory.getHigh());
-            int stockHistoryCalendarMonth = stockHistoryCalendar.get(Calendar.MONTH);
+            int stockHistoryCalendarMonth = stockHistoryCalendar.get(Calendar.DAY_OF_MONTH);
 
             if (currentMonth != stockHistoryCalendarMonth) {
                 if (currentMonth != 0) {
@@ -47,7 +47,7 @@ public class StockHistoryMapper {
             }
             if (i == stockHistoryList.size() - 1) {
                 entries.add(new Entry(currentHigh, chartIndex));
-                chartIndex++;
+//                chartIndex++;
 
             }
         }

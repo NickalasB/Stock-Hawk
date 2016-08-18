@@ -17,7 +17,7 @@
   <string name="invalid_stock_toast" translatable="true">That is not a valid stock symbol</string>
   <string name="empty_stocks" translatable="true">No Stock Information Available</string>
 
-  <string name="chart_description_string" translatable="true">Highest closing price/month</string>
+  <string name="chart_description_string" translatable="true">Stock closing price for past 30 days</string>
   <string name="chart_no_data_string" translatable="true">No historical data yet</string>
 
 

@@ -30,7 +30,7 @@ public class StockHistoryMapper {
 
             StockHistory stockHistory = stockHistoryList.get(i);
             Calendar stockHistoryCalendar = convertStringToDate(stockHistory.getDate());
-            float stockHistoryHighPrice = Float.parseFloat(stockHistory.getClose());
+            float stockHistoryHighPrice = Float.parseFloat(stockHistory.getHigh());
             int stockHistoryCalendarMonth = stockHistoryCalendar.get(Calendar.DAY_OF_MONTH);
 
             if (currentMonth != stockHistoryCalendarMonth) {

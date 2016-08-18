@@ -35,6 +35,7 @@ public class StockHistory {
     @Expose
     private String adjClose;
 
+
     /**
      * @return The symbol
      */

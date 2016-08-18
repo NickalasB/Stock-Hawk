@@ -44,11 +44,11 @@ public class MyStocksChartActivity extends AppCompatActivity {
     private XAxis xAxis;
     private YAxis yAxisLeft;
     private YAxis yAxisRight;
-    private StockItem stockItem;
+    private StockHistory stockItem;
 
 
     private ArrayList<StockItem> mStockArrayList;
-    private List<StockItem> items;
+    List<StockItem> items;
 
 
     @BindView(R.id.chart_name_textview)
@@ -142,6 +142,7 @@ public class MyStocksChartActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     lineChart.setData(getLineData(new StockHistoryMapper().mapStockHistoryForPastMonth(response.body())));
                 }
+
             }
 
             @Override
@@ -177,11 +178,13 @@ public class MyStocksChartActivity extends AppCompatActivity {
     private ArrayList<String> getLabels(){
         ArrayList<String> labels = new ArrayList<>();
         for (int i = 30; i >= 0 ; i--) {
+//        for (int i = 0; i < items.size(); i++) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
             calendar = Calendar.getInstance();
             calendar.add(Calendar.DAY_OF_MONTH, +-i);
-            String label = dateFormat.format(calendar.getTime());
-            labels.add(label);
+//            String labels = dateFormat.format(calendar.getTime());
+            labels.add(i, items.get(i).getDate());
+
         }
         return labels;
     }

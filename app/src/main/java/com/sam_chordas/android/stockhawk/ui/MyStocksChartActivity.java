@@ -115,11 +115,13 @@ public class MyStocksChartActivity extends AppCompatActivity {
 
 
     @NonNull
-    private LineData getLineData(List<Entry> entries) {
+    private LineData getLineData(List<Entry> entries, List<StockHistory> stockHistories){
         LineDataSet dataset = new LineDataSet(entries, "Highest Stock Price");
 
         //calling method we created to define labels at top of chart
-        ArrayList<String> labels = getLabels();
+//        ArrayList<String> labels = getLabels();
+        ArrayList<String> labels = getLabels(stockHistories);
+
 
         LineData data = new LineData(labels, dataset);
         dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
@@ -172,17 +174,27 @@ public class MyStocksChartActivity extends AppCompatActivity {
 
     //method that uses for loop to calculate a list of strings representing
     // each day for the previous 30 days
-    public ArrayList<String> getLabels() {
+    private ArrayList<String> getLabels(List<StockHistory>stockHistories){
         ArrayList<String> labels = new ArrayList<>();
-        for(int i = 30; i >=0; i--) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            calendar = Calendar.getInstance();
-            calendar.add(Calendar.MONTH, +-i);
-            String label = dateFormat.format(calendar.getTime());
+        for (int i = 0; i < stockHistories.size(); i++) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            String label = stockHistories.get(i).getDate();
             labels.add(label);
         }
         return labels;
     }
+
+//    public ArrayList<String> getLabels() {
+//        ArrayList<String> labels = new ArrayList<>();
+//        for(int i = 30; i >=0; i--) {
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//            calendar = Calendar.getInstance();
+//            calendar.add(Calendar.MONTH, +-i);
+//            String label = dateFormat.format(calendar.getTime());
+//            labels.add(label);
+//        }
+//        return labels;
+//    }
 
 }
 

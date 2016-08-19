@@ -86,7 +86,7 @@ public class MyStocksChartActivity extends AppCompatActivity {
         String stockSymbolText = symbolTextView.getText().toString();
         loadStockHistory(stockSymbolText);
 
-        LineData data = getLineData(new ArrayList<Entry>());
+        LineData data = getLineData(new ArrayList<Entry>(), new ArrayList<StockHistory>());
         lineChart.setNoDataTextDescription(getString(R.string.chart_no_data_string));
         lineChart.setData(data);
         lineChart.animateY(5000);
@@ -139,7 +139,8 @@ public class MyStocksChartActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<List<StockHistory>> call, Response<List<StockHistory>> response) {
                 if (response.isSuccessful()) {
-                    lineChart.setData(getLineData(new StockHistoryMapper().mapStockHistoryForPastMonth(response.body())));
+                    lineChart.setData(getLineData(new StockHistoryMapper().mapStockHistoryForPastMonth(response.body()), response.body()));
+
                 }
 
             }
@@ -176,14 +177,13 @@ public class MyStocksChartActivity extends AppCompatActivity {
     // each day for the previous 30 days
     private ArrayList<String> getLabels(List<StockHistory>stockHistories){
         ArrayList<String> labels = new ArrayList<>();
-        for (int i = 0; i < stockHistories.size(); i++) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        for (int i = stockHistories.size() - 1; i >= 0; i--) {
             String label = stockHistories.get(i).getDate();
             labels.add(label);
         }
         return labels;
     }
-
+//
 //    public ArrayList<String> getLabels() {
 //        ArrayList<String> labels = new ArrayList<>();
 //        for(int i = 30; i >=0; i--) {

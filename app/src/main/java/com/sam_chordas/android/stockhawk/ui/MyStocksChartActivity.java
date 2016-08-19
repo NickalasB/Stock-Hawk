@@ -17,7 +17,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.StockHistory;
-import com.sam_chordas.android.stockhawk.data.StockItem;
 import com.sam_chordas.android.stockhawk.data.mappers.StockHistoryMapper;
 import com.sam_chordas.android.stockhawk.service.YahooStockServiceFactory;
 
@@ -44,11 +43,10 @@ public class MyStocksChartActivity extends AppCompatActivity {
     private XAxis xAxis;
     private YAxis yAxisLeft;
     private YAxis yAxisRight;
-    private StockHistory stockItem;
+    private StockHistory stockHistory;
 
 
-    private ArrayList<StockItem> mStockArrayList;
-    List<StockItem> items;
+    private ArrayList<StockHistory> stockHistories;
 
 
     @BindView(R.id.chart_name_textview)
@@ -85,7 +83,6 @@ public class MyStocksChartActivity extends AppCompatActivity {
                 percentChangeTextView.setText(getIntent().getStringExtra("PERCENT_CHANGE"));
             }
 
-        mStockArrayList = new ArrayList<>();
         String stockSymbolText = symbolTextView.getText().toString();
         loadStockHistory(stockSymbolText);
 
@@ -175,16 +172,14 @@ public class MyStocksChartActivity extends AppCompatActivity {
 
     //method that uses for loop to calculate a list of strings representing
     // each day for the previous 30 days
-    private ArrayList<String> getLabels(){
+    public ArrayList<String> getLabels() {
         ArrayList<String> labels = new ArrayList<>();
-        for (int i = 30; i >= 0 ; i--) {
-//        for (int i = 0; i < items.size(); i++) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        for(int i = 30; i >=0; i--) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             calendar = Calendar.getInstance();
-            calendar.add(Calendar.DAY_OF_MONTH, +-i);
-//            String labels = dateFormat.format(calendar.getTime());
-            labels.add(i, items.get(i).getDate());
-
+            calendar.add(Calendar.MONTH, +-i);
+            String label = dateFormat.format(calendar.getTime());
+            labels.add(label);
         }
         return labels;
     }

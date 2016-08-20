@@ -17,7 +17,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.utils.ColorTemplate;
 import com.sam_chordas.android.stockhawk.R;
 import com.sam_chordas.android.stockhawk.data.StockHistory;
-import com.sam_chordas.android.stockhawk.data.StockItem;
 import com.sam_chordas.android.stockhawk.data.mappers.StockHistoryMapper;
 import com.sam_chordas.android.stockhawk.service.YahooStockServiceFactory;
 
@@ -44,11 +43,6 @@ public class MyStocksChartActivity extends AppCompatActivity {
     private XAxis xAxis;
     private YAxis yAxisLeft;
     private YAxis yAxisRight;
-    private StockItem stockItem;
-
-
-    private ArrayList<StockItem> mStockArrayList;
-    private List<StockItem> items;
 
 
     @BindView(R.id.chart_name_textview)
@@ -85,16 +79,15 @@ public class MyStocksChartActivity extends AppCompatActivity {
                 percentChangeTextView.setText(getIntent().getStringExtra("PERCENT_CHANGE"));
             }
 
-        mStockArrayList = new ArrayList<>();
         String stockSymbolText = symbolTextView.getText().toString();
         loadStockHistory(stockSymbolText);
 
-        LineData data = getLineData(new ArrayList<Entry>());
+        LineData data = getLineData(new ArrayList<Entry>(), new ArrayList<StockHistory>());
         lineChart.setNoDataTextDescription(getString(R.string.chart_no_data_string));
         lineChart.setData(data);
         lineChart.animateY(5000);
         lineChart.setDescription(getString(R.string.chart_description_string));
-        lineChart.setDescriptionColor(getResources().getColor(R.color.common_plus_signin_btn_text_light));
+        lineChart.setDescriptionColor(R.color.lightgrey);
 
 
         chartLegend = lineChart.getLegend();
@@ -103,26 +96,24 @@ public class MyStocksChartActivity extends AppCompatActivity {
         yAxisLeft = lineChart.getAxisLeft();
         yAxisRight = lineChart.getAxisRight();
         xAxis = lineChart.getXAxis();
-
-
         yAxisLeft.setTextSize(12);
         yAxisRight.setTextSize(12);
-        yAxisLeft.setTextColor(getResources().getColor(R.color.common_plus_signin_btn_text_light));
-        yAxisRight.setTextColor(getResources().getColor(R.color.common_plus_signin_btn_text_light));
+        yAxisLeft.setTextColor(getResources().getColor(R.color.lightgrey));
+        yAxisRight.setTextColor(getResources().getColor(R.color.lightgrey));
         yAxisLeft.setStartAtZero(false);
         yAxisRight.setStartAtZero(false);
 
-        xAxis.setTextColor(getResources().getColor(R.color.common_plus_signin_btn_text_light));
+        xAxis.setTextColor(getResources().getColor(R.color.lightgrey));
     }
 
 
-
     @NonNull
-    private LineData getLineData(List<Entry> entries) {
+    private LineData getLineData(List<Entry> entries, List<StockHistory> stockHistories) {
         LineDataSet dataset = new LineDataSet(entries, "Highest Stock Price");
 
         //calling method we created to define labels at top of chart
-        ArrayList<String> labels = getLabels();
+        ArrayList<String> labels = getLabels(stockHistories);
+
 
         LineData data = new LineData(labels, dataset);
         dataset.setColors(ColorTemplate.COLORFUL_COLORS); //
@@ -130,17 +121,19 @@ public class MyStocksChartActivity extends AppCompatActivity {
         dataset.setFillColor(getResources().getColor(R.color.material_blue_700));
         dataset.setFillAlpha(125);
         dataset.setValueTextSize(10f);
+        dataset.setDrawCubic(true);
+        dataset.setValueTextColor(getResources().getColor(R.color.gray));
         return data;
     }
 
     private void loadStockHistory(String stockSymbolText) {
-        String historyQuery = "select * from yahoo.finance.historicaldata where symbol = \"" + stockSymbolText.toUpperCase() + "\" and startDate = \"" + getAYearAgo() + "\" and endDate =\"" + getCurrentDate() + "\"";
+        String historyQuery = "select * from yahoo.finance.historicaldata where symbol = \"" + stockSymbolText.toUpperCase() + "\" and startDate = \"" + getAMonthAgo() + "\" and endDate =\"" + getCurrentDate() + "\"";
 
         new YahooStockServiceFactory().create().stockHistory(historyQuery).enqueue(new Callback<List<StockHistory>>() {
             @Override
             public void onResponse(Call<List<StockHistory>> call, Response<List<StockHistory>> response) {
                 if (response.isSuccessful()) {
-                    lineChart.setData(getLineData(new StockHistoryMapper().mapStockHistoryForMonthlyHighestClose(response.body())));
+                    lineChart.setData(getLineData(new StockHistoryMapper().mapStockHistoryForPastMonth(response.body()), response.body()));
                 }
             }
 
@@ -162,29 +155,25 @@ public class MyStocksChartActivity extends AppCompatActivity {
         return presentDate;
     }
 
-    public String getAYearAgo() {
+    public String getAMonthAgo() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         calendar = Calendar.getInstance();
-        calendar.add(Calendar.YEAR, +-1);
-        String oneYearAgo = dateFormat.format(calendar.getTime());
-        Log.v(LOG_TAG, "The date one year from today was " + oneYearAgo);
-        return oneYearAgo;
+        calendar.add(Calendar.MONTH, +-1);
+        String oneMonthAgo = dateFormat.format(calendar.getTime());
+        Log.v(LOG_TAG, "The date one month ago from today was " + oneMonthAgo);
+        return oneMonthAgo;
 
     }
 
-    //method that uses for loop to calculate a list of strings representing
-    // each month for the previous 12 months
-    private ArrayList<String> getLabels(){
+    // method that uses for loop to calculate a generate of strings representing
+    // each day for the previous 30 days
+    private ArrayList<String> getLabels(List<StockHistory> stockHistories) {
         ArrayList<String> labels = new ArrayList<>();
-        for (int i = 12; i >= 0 ; i--) {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("MM/yyyy");
-            calendar = Calendar.getInstance();
-            calendar.add(Calendar.MONTH, +-i);
-            String label = dateFormat.format(calendar.getTime());
+        for (int i = stockHistories.size() - 1; i >= 0; i--) {
+            String label = stockHistories.get(i).getDate();
             labels.add(label);
         }
         return labels;
     }
-
 }
 

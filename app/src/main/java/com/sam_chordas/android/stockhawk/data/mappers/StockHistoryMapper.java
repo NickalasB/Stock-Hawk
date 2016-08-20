@@ -20,40 +20,16 @@ public class StockHistoryMapper {
     public List<Entry> mapStockHistoryForPastMonth(List<StockHistory> stockHistoryList) {
         List<Entry> entries = new ArrayList<>();
 
-        int currentMonth = 0;
-        float currentHigh = 0;
         int chartIndex = 0;
 
-
         for (int i = stockHistoryList.size() - 1; i >= 0; i--) {
-//        for (int i = 0; i < stockHistoryList.size(); i++) {
-
             StockHistory stockHistory = stockHistoryList.get(i);
-            Calendar stockHistoryCalendar = convertStringToDate(stockHistory.getDate());
-            float stockHistoryHighPrice = Float.parseFloat(stockHistory.getClose());
-            int stockHistoryCalendarMonth = stockHistoryCalendar.get(Calendar.DAY_OF_MONTH);
-
-            if (currentMonth != stockHistoryCalendarMonth) {
-                if (currentMonth != 0) {
-                    entries.add(new Entry(currentHigh, chartIndex));
-                    chartIndex++;
-                    currentHigh = 0;
-                }
-
-                currentMonth = stockHistoryCalendarMonth;
-            }
-            if (currentHigh < stockHistoryHighPrice) {
-                currentHigh = stockHistoryHighPrice;
-            }
-            if (i == stockHistoryList.size() - 1) {
-                entries.add(new Entry(currentHigh, chartIndex));
-//                chartIndex++;
-
-            }
+            float stockHistoryClosePrice = Float.parseFloat(stockHistory.getClose());
+            entries.add(new Entry(stockHistoryClosePrice, chartIndex));
+            chartIndex++;
         }
         return entries;
     }
-
 
     public Calendar convertStringToDate(String dateString) {
         Calendar calendar = Calendar.getInstance();

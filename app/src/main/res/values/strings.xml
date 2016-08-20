@@ -2,9 +2,9 @@
     <string name="app_name" translatable="false">Stock Hawk</string>
 
     <string name="detail_activity_title" translatable="true">Stock Details</string>
-    <string name="detail_activity_stock_name" translatable="true">Stock Name:</string>
-    <string name="detail_activity_bid_price" translatable="true">Current Pid Price:</string>
-    <string name="detail_activity_percent" translatable="true">Percent Changed:</string>
+    <string name="detail_activity_stock_name" translatable="true">Stock Name</string>
+    <string name="detail_activity_bid_price" translatable="true">Current Pid Price</string>
+    <string name="detail_activity_percent" translatable="true">Percent Changed</string>
 
 
     <string name="action_example" translatable="true">Example action</string>

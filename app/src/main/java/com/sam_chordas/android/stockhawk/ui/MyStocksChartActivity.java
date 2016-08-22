@@ -179,19 +179,8 @@ public class MyStocksChartActivity extends AppCompatActivity {
 
     // method that uses for loop to calculate a generate of strings representing
     // each day for the previous 30 days
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     private ArrayList<String> getLabels(List<StockHistory> stockHistories) {
         ArrayList<String> labels = new ArrayList<>();
-        //adding RTL support for the labels
-        Configuration config = getResources().getConfiguration();
-        if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-            for (int i = 0; i < stockHistories.size(); i++) {
-                String label = stockHistories.get(i).getDate();
-                labels.add(label);
-            }
-            return labels;
-        } else {
-
             for (int i = stockHistories.size() - 1; i >= 0; i--) {
                 String label = stockHistories.get(i).getDate();
                 labels.add(label);
@@ -199,6 +188,6 @@ public class MyStocksChartActivity extends AppCompatActivity {
             return labels;
         }
     }
-}
+
 
 

@@ -15,6 +15,9 @@
     <string name="content_test" translatable="true">Search for a Stock Symbol</string>
     <string name="input_hint" translatable="false">FB</string>
 
+    <string name="already_saved_stock" translatable="true">This stock is already saved!</string>
+
+
     <string name="input_prefill"></string>
 
 

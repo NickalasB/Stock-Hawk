@@ -287,7 +287,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
 //        Log.v(LOG_TAG, "And the name of the stock is... " + QuoteColumns.NAME);
 
 
-
     }
 
     @Override

@@ -134,7 +134,6 @@ public class MyStocksChartActivity extends AppCompatActivity {
         dataset.setFillColor(getResources().getColor(R.color.material_blue_700));
         dataset.setFillAlpha(125);
         dataset.setValueTextSize(10f);
-        dataset.setDrawCubic(true);
         dataset.setValueTextColor(getResources().getColor(R.color.gray));
         return data;
     }

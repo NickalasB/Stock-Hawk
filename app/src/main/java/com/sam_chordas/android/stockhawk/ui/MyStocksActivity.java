@@ -135,6 +135,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                     new MaterialDialog.Builder(mContext).title(R.string.symbol_search)
                             .content(R.string.content_test)
                             .inputType(InputType.TYPE_CLASS_TEXT)
+                            .inputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS)
                             .input(R.string.input_hint, R.string.input_prefill, new MaterialDialog.InputCallback() {
                                 @Override
                                 public void onInput(MaterialDialog dialog, CharSequence input) {
@@ -145,7 +146,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                                             new String[]{input.toString()}, null);
                                     if (c.getCount() != 0) {
                                         Toast toast =
-                                                Toast.makeText(MyStocksActivity.this, "This stock is already saved!",
+                                                Toast.makeText(MyStocksActivity.this, getString(R.string.already_saved_stock),
                                                         Toast.LENGTH_LONG);
                                         toast.setGravity(Gravity.CENTER, Gravity.CENTER, 0);
                                         toast.show();
@@ -285,7 +286,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         Log.v(LOG_TAG, "This should return the number of stocks  " + mCursorAdapter.getItemCount());
         Log.v(LOG_TAG, "This should return a true if list is empty " + checkAdapterIsEmpty());
 //        Log.v(LOG_TAG, "And the name of the stock is... " + QuoteColumns.NAME);
-
 
 
     }

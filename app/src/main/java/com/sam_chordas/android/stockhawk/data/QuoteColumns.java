@@ -28,6 +28,7 @@ public class QuoteColumns {
 
     public static final String BIDPRICE = "bid_price";
     @DataType(DataType.Type.TEXT)
+    @NotNull
 
     public static final String NAME = "Name";
     @DataType(DataType.Type.TEXT)

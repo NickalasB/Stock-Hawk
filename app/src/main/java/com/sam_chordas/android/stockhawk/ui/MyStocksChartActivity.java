@@ -1,10 +1,14 @@
 package com.sam_chordas.android.stockhawk.ui;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -44,7 +48,6 @@ public class MyStocksChartActivity extends AppCompatActivity {
     private YAxis yAxisLeft;
     private YAxis yAxisRight;
 
-
     @BindView(R.id.chart_name_textview)
     TextView nameTextView;
 
@@ -64,10 +67,20 @@ public class MyStocksChartActivity extends AppCompatActivity {
 
     private String LOG_TAG = MyStocksChartActivity.class.getSimpleName();
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.detail_my_stocks);
+        //GridLayout doesn't support RTL so check for it and use alternate layout if RTL == true
+        Configuration config = getResources().getConfiguration();
+        if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+            setContentView(R.layout.rtl_detail_my_stocks);
+        } else {
+            setContentView(R.layout.detail_my_stocks);
+
+        }
+
+
         ButterKnife.bind(this);
 
         Intent mChartIntent = getIntent();
@@ -121,7 +134,6 @@ public class MyStocksChartActivity extends AppCompatActivity {
         dataset.setFillColor(getResources().getColor(R.color.material_blue_700));
         dataset.setFillAlpha(125);
         dataset.setValueTextSize(10f);
-        dataset.setDrawCubic(true);
         dataset.setValueTextColor(getResources().getColor(R.color.gray));
         return data;
     }
@@ -169,11 +181,13 @@ public class MyStocksChartActivity extends AppCompatActivity {
     // each day for the previous 30 days
     private ArrayList<String> getLabels(List<StockHistory> stockHistories) {
         ArrayList<String> labels = new ArrayList<>();
-        for (int i = stockHistories.size() - 1; i >= 0; i--) {
-            String label = stockHistories.get(i).getDate();
-            labels.add(label);
+            for (int i = stockHistories.size() - 1; i >= 0; i--) {
+                String label = stockHistories.get(i).getDate();
+                labels.add(label);
+            }
+            return labels;
         }
-        return labels;
     }
-}
+
+
 

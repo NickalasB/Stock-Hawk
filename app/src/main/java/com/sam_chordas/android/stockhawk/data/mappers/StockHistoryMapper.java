@@ -1,5 +1,8 @@
 package com.sam_chordas.android.stockhawk.data.mappers;
 
+import android.annotation.TargetApi;
+import android.os.Build;
+
 import com.github.mikephil.charting.data.Entry;
 import com.sam_chordas.android.stockhawk.data.StockHistory;
 
@@ -17,11 +20,12 @@ public class StockHistoryMapper {
 
     private String LOG_TAG = StockHistoryMapper.class.getSimpleName();
 
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public List<Entry> mapStockHistoryForPastMonth(List<StockHistory> stockHistoryList) {
         List<Entry> entries = new ArrayList<>();
 
         int chartIndex = 0;
-
         for (int i = stockHistoryList.size() - 1; i >= 0; i--) {
             StockHistory stockHistory = stockHistoryList.get(i);
             float stockHistoryClosePrice = Float.parseFloat(stockHistory.getClose());

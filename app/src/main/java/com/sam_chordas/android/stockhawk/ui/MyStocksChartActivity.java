@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.LineChart;
@@ -72,12 +73,12 @@ public class MyStocksChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //GridLayout doesn't support RTL so check for it and use alternate layout if RTL == true
         Configuration config = getResources().getConfiguration();
-//        if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-//            setContentView(R.layout.rtl_detail_my_stocks);
-//        } else {
+        if (config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+            setContentView(R.layout.rtl_detail_my_stocks);
+        } else {
             setContentView(R.layout.detail_my_stocks);
 
-//        }
+        }
 
 
         ButterKnife.bind(this);
@@ -180,13 +181,13 @@ public class MyStocksChartActivity extends AppCompatActivity {
     // each day for the previous 30 days
     private ArrayList<String> getLabels(List<StockHistory> stockHistories) {
         ArrayList<String> labels = new ArrayList<>();
-            for (int i = stockHistories.size() - 1; i >= 0; i--) {
-                String label = stockHistories.get(i).getDate();
-                labels.add(label);
-            }
-            return labels;
+        for (int i = stockHistories.size() - 1; i >= 0; i--) {
+            String label = stockHistories.get(i).getDate();
+            labels.add(label);
         }
+        return labels;
     }
+}
 
 
 

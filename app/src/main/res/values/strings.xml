@@ -33,4 +33,8 @@
     <string name="chart_no_data_string" translatable="true">No historical data yet</string>
 
 
+    <!-- Strings related to Widgets -->
+    <string name="title_widget_today">Stock Hawk Today</string>
+    <string name="title_widget_detail">Stock Hawk Details</string>
+
 </resources>

@@ -16,14 +16,8 @@ import com.sam_chordas.android.stockhawk.ui.MyStocksActivity;
 /**
  * Created by nickbradshaw on 8/22/16.
  */
-public class SingleStockWidgetProvider extends AppWidgetProvider {
+public class StockWidgetProvider extends AppWidgetProvider {
 
-    /**
-     * Provider for a horizontally expandable widget showing today's bid price for a single stock.
-     * <p/>
-     * Delegates widget updating to {@link SingleStockWidgetIntentService} to ensure that
-     * data retrieval is done on a background thread
-     */
 
 
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -34,11 +28,11 @@ public class SingleStockWidgetProvider extends AppWidgetProvider {
 
         // Perform this loop procedure for each Today widget
         for (int appWidgetId : appWidgetIds) {
-            int layoutId = R.layout.widget_single_stock_small;
+            int layoutId = R.layout.stock_widget;
             RemoteViews views = new RemoteViews(context.getPackageName(), layoutId);
 
             // Add the data to the RemoteViews
-            views.setTextViewText(R.id.widget_symbol, stockSymbol);
+            views.setTextViewText(R.id.widget_stock_symbol, stockSymbol);
             // Content Descriptions for RemoteViews were only added in ICS MR1
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1) {
                 setRemoteContentDescription(views, description);
@@ -55,32 +49,15 @@ public class SingleStockWidgetProvider extends AppWidgetProvider {
         }
     }
 
+
+
+
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
     private void setRemoteContentDescription(RemoteViews views, String description) {
-        views.setContentDescription(R.id.widget_symbol, description);
+        views.setContentDescription(R.id.widget_stock_symbol, description);
     }
 }
 
 
 
-//
-//    @Override
-//    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
-//        context.startService(new Intent(context, SingleStockWidgetIntentService.class));
-//    }
-//
-//    @Override
-//    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager,
-//                                          int appWidgetId, Bundle newOptions) {
-//        context.startService(new Intent(context, SingleStockWidgetIntentService.class));
-//    }
-//
-//    @Override
-//    public void onReceive(@NonNull Context context, @NonNull Intent intent) {
-//        super.onReceive(context, intent);
-//        if (QuoteCursorAdapter.ACTION_DATA_UPDATED.equals(intent.getAction())) {
-//            context.startService(new Intent(context, SingleStockWidgetIntentService.class));
-//        }
-//    }
-//
-//}
+

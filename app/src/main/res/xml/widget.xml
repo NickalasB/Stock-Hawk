@@ -7,7 +7,7 @@
     android:minWidth="@dimen/widget_single_stock_default_width"
     android:minResizeHeight="@dimen/widget_single_stock_min_resize_height"
     android:minResizeWidth="@dimen/widget_single_stock_min_resize_width"
-    android:resizeMode="horizontal"
+    android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="0"
     tools:ignore="UnusdedAttribute" />
 

@@ -54,7 +54,7 @@
 
         <!-- Stock Widget -->
         <receiver
-            android:name=".widget.SingleStockWidgetProvider"
+            android:name=".widget.StockWidgetProvider"
             android:label="@string/title_widget_today" >
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -63,7 +63,7 @@
             <meta-data android:name="android.appwidget.provider"
                 android:resource="@xml/widget" />
         </receiver>
-        <service android:name=".widget.SingleStockWidgetIntentService" />
+        <service android:name=".widget.StockWidgetIntentService" />
 
     </application>
 

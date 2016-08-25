@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
+import com.sam_chordas.android.stockhawk.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +62,7 @@ public class StockWidgetProvider implements RemoteViewsService.RemoteViewsFactor
     @Override
     public RemoteViews getViewAt(int position) {
         RemoteViews remoteView = new RemoteViews(mContext.getPackageName(),
-                android.R.layout.simple_list_item_1);
+                R.layout.stock_widget_list_item);
         remoteView.setTextViewText(android.R.id.text1, stockCollection.get(position));
         return remoteView;
     }

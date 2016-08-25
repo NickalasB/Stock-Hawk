@@ -1,6 +1,7 @@
 package com.sam_chordas.android.stockhawk.widget;
 
 import android.annotation.TargetApi;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
@@ -10,6 +11,7 @@ import android.support.annotation.NonNull;
 import android.widget.RemoteViews;
 
 import com.sam_chordas.android.stockhawk.R;
+import com.sam_chordas.android.stockhawk.ui.MyStocksActivity;
 
 /**
  * Implementation of App Widget functionality.
@@ -20,7 +22,15 @@ public class StockHawkAppWidget extends AppWidgetProvider {
                                 int appWidgetId) {
 
         // Construct the RemoteViews object
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.stock_hawk_app_widget);
+        RemoteViews views = new RemoteViews(context.getPackageName(),
+                R.layout.stock_hawk_app_widget);
+
+        // Create an Intent to launch MainActivity
+        Intent launchIntent = new Intent(context, MyStocksActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, launchIntent, 0);
+
+        views.setOnClickPendingIntent(R.id.widget_title_bar, pendingIntent);
+
 
         // Set up the collection
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -31,15 +41,32 @@ public class StockHawkAppWidget extends AppWidgetProvider {
 
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, views);
+
     }
+
+
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
+            int layoutId = R.layout.stock_hawk_app_widget;
+
+            // Create an Intent to launch MainActivity
+            Intent launchIntent = new Intent(context, MyStocksActivity.class);
+            PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, launchIntent, 0);
+
+            // Get the layout for the App Widget and attach an on-click listener
+            RemoteViews views = new RemoteViews(context.getPackageName(), layoutId);
+            views.setOnClickPendingIntent(R.id.widget_title_bar, pendingIntent);
+
+            // Tell the AppWidgetManager to perform an update on the current app widget
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
     }
+
+
+
 
     @Override
     public void onEnabled(Context context) {

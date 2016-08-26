@@ -35,5 +35,6 @@
   <!-- This is an odd width, but we're trying to match the font closely to keep things working
      on devices that don't yet have Roboto -->
   <dimen name="forecast_widget_text_width">38dp</dimen>
+  <dimen name="widget_appbar_height">48dp</dimen>
 
 </resources>

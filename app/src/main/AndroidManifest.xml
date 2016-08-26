@@ -63,9 +63,9 @@
                 android:resource="@xml/stock_hawk_app_widget_info" />
         </receiver>
 
-        <service android:name=".widget.StockWidgetService"
-            android:permission="android.permission.BIND_REMOTEVIEWS"/>
-
+        <service
+            android:name=".widget.StockWidgetProvider"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
 
     </application>
 

@@ -73,10 +73,6 @@ public class StockHawkAppWidget extends AppWidgetProvider {
     }
 
 
-    @Override
-    public void onEnabled(Context context) {
-        // Enter relevant functionality for when the first widget is created
-    }
 
     @Override
     public void onDisabled(Context context) {
@@ -91,7 +87,7 @@ public class StockHawkAppWidget extends AppWidgetProvider {
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     private static void setRemoteAdapter(Context context, @NonNull final RemoteViews views) {
         views.setRemoteAdapter(R.id.widget_list,
-                new Intent(context, StockWidgetService.class));
+                new Intent(context, StockWidgetProvider.class));
     }
 
     /**
@@ -102,7 +98,7 @@ public class StockHawkAppWidget extends AppWidgetProvider {
     @SuppressWarnings("deprecation")
     private static void setRemoteAdapterV11(Context context, @NonNull final RemoteViews views) {
         views.setRemoteAdapter(0, R.id.widget_list,
-                new Intent(context, StockWidgetService.class));
+                new Intent(context, StockWidgetProvider.class));
     }
 }
 

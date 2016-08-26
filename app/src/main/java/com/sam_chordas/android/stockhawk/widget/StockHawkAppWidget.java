@@ -23,6 +23,33 @@ import com.sam_chordas.android.stockhawk.ui.MyStocksChartActivity;
  */
 public class StockHawkAppWidget extends AppWidgetProvider {
 
+    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int AppWidgetId){
+
+
+        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.stock_hawk_app_widget);
+        views.setRemoteAdapter(R.id.widget_list, new Intent(context, StockHawkAppWidget.class));
+
+        // Create an Intent to launch MainActivity on clicking heading
+        Intent intent = new Intent(context, MyStocksActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        views.setOnClickPendingIntent(R.id.stock_widget_frame_layout, pendingIntent);
+
+        // Set up the collection
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+            setRemoteAdapter(context, views);
+        } else {
+            setRemoteAdapterV11(context, views);
+        }
+
+        //Open details view on tapping any quote from widget
+        Intent clickIntentTemplate = new Intent(context, MyStocksChartActivity.class);
+        PendingIntent clickPendingIntentTemplate =PendingIntent.getActivity(context, 0, clickIntentTemplate,PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setPendingIntentTemplate(R.id.widget_list, clickPendingIntentTemplate);
+        views.setEmptyView(R.id.widget_list, R.id.widget_empty);
+
+        appWidgetManager.updateAppWidget(AppWidgetId,views);
+    }
+
     @Override
     public void onReceive(Context context, Intent intent) {
         if (StockTaskService.ACTION_DATA_UPDATED.equals(intent.getAction())) {
@@ -32,9 +59,11 @@ public class StockHawkAppWidget extends AppWidgetProvider {
             appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_list);
         }
         super.onReceive(context, intent);
-        
+
 
     }
+
+
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -66,6 +95,8 @@ public class StockHawkAppWidget extends AppWidgetProvider {
 
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
+            super.onUpdate(context, appWidgetManager, appWidgetIds);
+
         }
     }
 
@@ -102,30 +133,7 @@ public class StockHawkAppWidget extends AppWidgetProvider {
         views.setRemoteAdapter(0, R.id.widget_list,
                 new Intent(context, StockWidgetProvider.class));
     }
-}
 
-//    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
-//                                int appWidgetId) {
-//
-//        // Construct the RemoteViews object
-//        RemoteViews views = new RemoteViews(context.getPackageName(),
-//                R.layout.stock_hawk_app_widget);
-//
-//        // Create an Intent to launch MainActivity
-//        Intent launchIntent = new Intent(context, MyStocksActivity.class);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, launchIntent, 0);
-//
-//        views.setOnClickPendingIntent(R.id.widget_title_bar, pendingIntent);
-//
-//
-//        // Set up the collection
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-//            setRemoteAdapter(context, views);
-//        } else {
-//            setRemoteAdapterV11(context, views);
-//        }
-//
-//        // Instruct the widget manager to update the widget
-//        appWidgetManager.updateAppWidget(appWidgetId, views);
-//
-//    }
+
+
+}

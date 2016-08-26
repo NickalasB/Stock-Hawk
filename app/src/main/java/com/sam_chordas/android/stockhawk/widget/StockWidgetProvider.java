@@ -19,7 +19,10 @@ import com.sam_chordas.android.stockhawk.rest.Utils;
  */
 public class StockWidgetProvider extends RemoteViewsService {
 
-    private static final String SYMBOL = "symbol";
+    private static final String SYMBOL = "SYMBOL";
+    private static final String BIDPRICE = "BID_PRICE";
+    private static final String PERCENT_CHANGE = "PERCENT_CHANGE";
+
 
 
     private final String[] STOCK_COLUMNS = {
@@ -48,7 +51,7 @@ public class StockWidgetProvider extends RemoteViewsService {
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
         return new RemoteViewsFactory() {
-            private Cursor data = null;
+            private Cursor mCursor = null;
 
 
             @Override
@@ -60,12 +63,12 @@ public class StockWidgetProvider extends RemoteViewsService {
 
             @Override
             public void onDataSetChanged() {
-                if (data != null) {
-                    data.close();
+                if (mCursor != null) {
+                    mCursor.close();
                 }
 
                 final long identityToken = Binder.clearCallingIdentity();
-                data = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
+                mCursor = getContentResolver().query(QuoteProvider.Quotes.CONTENT_URI,
                         STOCK_COLUMNS,
                         QuoteColumns.ISCURRENT + " = ?",
                         new String[]{"1"},
@@ -85,36 +88,36 @@ public class StockWidgetProvider extends RemoteViewsService {
 
             @Override
             public void onDestroy() {
-                if (data != null) {
-                    data.close();
-                    data = null;
+                if (mCursor != null) {
+                    mCursor.close();
+                    mCursor = null;
                 }
 
             }
 
             @Override
             public int getCount() {
-                if (data == null) return 0;
-                else return data.getCount();
+                if (mCursor == null) return 0;
+                else return mCursor.getCount();
             }
 
             //gives us views per list item
             @Override
             public RemoteViews getViewAt(int position) {
                 if (position == AdapterView.INVALID_POSITION ||
-                        data == null || !data.moveToPosition(position)) {
+                        mCursor == null || !mCursor.moveToPosition(position)) {
                     return null;
                 }
                 RemoteViews mRemoteViews = new RemoteViews(getPackageName(), R.layout.stock_widget_list_item);
 
-                String symbol = data.getString(INDEX_SYMBOL);
+                String symbol = mCursor.getString(INDEX_SYMBOL);
                 mRemoteViews.setTextViewText(R.id.widget_stock_symbol, symbol);
 
-                String bidPrice = data.getString(INDEX_BID_PRICE);
+                String bidPrice = mCursor.getString(INDEX_BID_PRICE);
                 mRemoteViews.setTextViewText(R.id.widget_bid_price, bidPrice);
 
-                String priceChange = data.getString(INDEX_CHANGE);
-                String percentChange = data.getString(INDEX_PERCENT_CHANGE);
+                String priceChange = mCursor.getString(INDEX_CHANGE);
+                String percentChange = mCursor.getString(INDEX_PERCENT_CHANGE);
 
                 mRemoteViews.setTextViewText(R.id.widget_change, percentChange);
                 if (Utils.showPercent) {
@@ -124,9 +127,12 @@ public class StockWidgetProvider extends RemoteViewsService {
                 }
                 setRemoteContentDescription(mRemoteViews, symbol);
 
-
+                //this is where we pass the info from the widget
                 final Intent intent = new Intent();
-                intent.putExtra(SYMBOL, symbol);
+                intent.putExtra("SYMBOL", symbol);
+                intent.putExtra("BIDPRICE", bidPrice);
+                intent.putExtra("PERCENT_CHANGE", percentChange);
+
                 mRemoteViews.setOnClickFillInIntent(R.id.single_stock_widget_list_item_frame_layout, intent);
 
                 return mRemoteViews;
@@ -151,8 +157,8 @@ public class StockWidgetProvider extends RemoteViewsService {
 
             @Override
             public long getItemId(int position) {
-                if (data.moveToPosition(position))
-                    return data.getLong(INDEX_ID);
+                if (mCursor.moveToPosition(position))
+                    return mCursor.getLong(INDEX_ID);
                 return position;
             }
 
@@ -165,6 +171,7 @@ public class StockWidgetProvider extends RemoteViewsService {
 
 
     }
+
 }
 
 

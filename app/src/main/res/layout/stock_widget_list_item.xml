@@ -58,31 +58,4 @@
                 tools:text="+1.2%" />
         </LinearLayout>
     </LinearLayout>
-
-    <!--<LinearLayout-->
-    <!--android:id="@+id/widget"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="vertical"-->
-    <!--android:padding="4dp"-->
-    <!--android:background="@color/gray">-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/widget_symbol"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_weight="1"-->
-    <!--android:layout_gravity="center_horizontal"-->
-    <!--tools:text="GOOG"-->
-    <!--android:textStyle="bold"/>-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/widget_bid_price"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--tools:text="772.39"-->
-    <!--android:layout_gravity="center_horizontal"-->
-    <!--android:fontFamily="sans-serif" />-->
-    <!--</LinearLayout>-->
-
 </FrameLayout>

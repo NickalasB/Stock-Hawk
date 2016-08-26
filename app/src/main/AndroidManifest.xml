@@ -51,25 +51,11 @@
             android:authorities="com.sam_chordas.android.stockhawk.data.QuoteProvider"
             android:exported="false" />
 
-        <!--&lt;!&ndash; my original Stock Widget &ndash;&gt;-->
-        <!--<receiver-->
-            <!--android:name=".widget.StockWidgetProvider"-->
-            <!--android:label="@string/title_widget_today">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
-                <!--<action android:name="com.sam_chordas.android.stockhawk.ACTION_DATA_UPDATED" />-->
-            <!--</intent-filter>-->
-
-            <!--<meta-data-->
-                <!--android:name="android.appwidget.provider"-->
-                <!--android:resource="@xml/widget" />-->
-        <!--</receiver>-->
-        <!--<service android:name=".widget.StockWidgetService" />-->
-
-        <!--Example Widget-->
         <receiver android:name=".widget.StockHawkAppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="com.sam_chordas.android.stockhawk.ACTION_DATA_UPDATED"/>
+
             </intent-filter>
 
             <meta-data

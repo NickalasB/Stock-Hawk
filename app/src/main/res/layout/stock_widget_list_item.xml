@@ -47,7 +47,7 @@
 
             <TextView
                 android:id="@+id/widget_change"
-                style="@style/PercentChangeTextStyle"
+                style="@style/WidgetPercentChangeTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/percent_change_pill"

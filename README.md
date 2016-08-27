@@ -1,8 +1,9 @@
 **Quick summary:** Stock Hawk is an app that puts the power of Wall Street in the palm of your hands. 
+
 * Get up the minute data on all your favorite stocks and even chart the closing prices for the last 30 trading days on an animated graph. 
 * There's even a widget so you can check your stock without opening the app.
-* * Supports RTL 
-* * Fully integrated accessibility features too. 
+* Supports RTL 
+* Fully integrated accessibility features too. 
 
 Version: This is the first iteration of the app- more features will be added
 

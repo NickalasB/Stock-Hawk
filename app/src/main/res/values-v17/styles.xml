@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+        <style name="ELRST_padding">
+                <item name="android:paddingEnd">8dp</item>
+                <item name="android:paddingLeft">8dp</item>
+                <item name="android:paddingRight">8dp</item>
+                <item name="android:paddingStart">8dp</item>
+                <item name="android:paddingTop">8dp</item>
+        </style>
+
+        <style name="ELRS_padding">
+                <item name="android:paddingEnd">8dp</item>
+                <item name="android:paddingLeft">8dp</item>
+                <item name="android:paddingRight">8dp</item>
+                <item name="android:paddingStart">8dp</item>
+        </style>
+
+</resources>

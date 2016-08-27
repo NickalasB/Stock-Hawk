@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
   <!-- Base application theme. -->
   <style name="AppTheme"
@@ -13,6 +13,12 @@
     <item name="android:textColor">#FFF</item>
     <item name="android:textStyle">bold</item>
   </style>
+  <style name="WidgetPercentChangeTextStyle">
+    <item name="android:textSize">18sp</item>
+    <item name="android:textColor">#FFF</item>
+    <item name="android:textStyle">bold</item>
+  </style>
+
   <style name="BidPriceTextStyle">
     <item name="android:textSize">20sp</item>
   </style>
@@ -20,5 +26,20 @@
     <item name="android:textSize">25sp</item>
     <item name="android:textAllCaps">true</item>
   </style>
+    
+    <style name="ELRST_padding">
+        <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">8dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingStart" tools:targetApi="jelly_bean_mr1">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+    </style>
+
+    <style name="ELRS_padding">
+        <item name="android:paddingEnd" tools:targetApi="jelly_bean_mr1">8dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingStart" tools:targetApi="jelly_bean_mr1">8dp</item>
+    </style>
 
 </resources>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/chart_name_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingEnd="8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        tools:text="Alphabet" />
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:columnCount="2"
+        android:paddingBottom="16dp"
+        android:paddingEnd="40dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:paddingStart="40dp">
+
+        <TextView
+            android:id="@+id/chart_symbol_title_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_activity_stock_name"
+            android:textSize="16sp"
+            app:layout_columnSpan="2"
+            app:layout_columnWeight="1"
+            tools:text="Stock Symbol:" />
+
+        <TextView
+            android:id="@+id/chart_symbol_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textSize="16sp"
+            app:layout_columnSpan="2"
+            app:layout_columnWeight="1"
+            tools:text="GOOG" />
+
+        <TextView
+            android:id="@+id/chart_bid_price_title_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_activity_bid_price"
+            android:textSize="16sp"
+            app:layout_columnSpan="2"
+            app:layout_columnWeight="3"
+            tools:text="Bid Price:" />
+
+        <TextView
+            android:id="@+id/chart_bid_price_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textSize="16sp"
+            app:layout_columnSpan="2"
+            app:layout_columnWeight="1"
+            tools:text="783" />
+
+        <TextView
+            android:id="@+id/chart_percent_change_title_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/detail_activity_percent"
+            android:textSize="16sp"
+            app:layout_columnSpan="2"
+            app:layout_columnWeight="3"
+            tools:text="Percent Changed:" />
+
+        <TextView
+            android:id="@+id/chart_percent_change_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:textSize="16sp"
+            app:layout_columnSpan="2"
+            app:layout_columnWeight="1"
+            tools:text="+.02%" />
+    </GridLayout>
+
+    <include
+        layout="@layout/activity_line_graph"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
+

@@ -26,6 +26,8 @@ import com.sam_chordas.android.stockhawk.touch_helper.ItemTouchHelperViewHolder;
 public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAdapter.ViewHolder>
     implements ItemTouchHelperAdapter{
 
+  public static final  String ACTION_DATA_UPDATED = "com.sam_chordas.android.stockhawk.rest.ACTION_DATA_UPDATED";
+
   private static Context mContext;
   private static Typeface robotoLight;
   private boolean isPercent;
@@ -33,6 +35,8 @@ public class QuoteCursorAdapter extends CursorRecyclerViewAdapter<QuoteCursorAda
     super(context, cursor);
     mContext = context;
   }
+
+
 
   @Override
   public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){

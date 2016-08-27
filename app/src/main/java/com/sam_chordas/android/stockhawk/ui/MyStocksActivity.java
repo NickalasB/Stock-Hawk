@@ -43,6 +43,9 @@ import com.sam_chordas.android.stockhawk.widget.StockHawkAppWidget;
 import butterknife.ButterKnife;
 
 public class MyStocksActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+    public static final String UNIT_CHANGE_ICON = "unit_change_icon";
+    private int mUnitChangeIcon = R.drawable.ic_attach_percentage__white_24dp;
+
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -67,6 +70,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
 
         final String LOG_TAG = MyStocksActivity.class.getSimpleName();
 
+
         super.onCreate(savedInstanceState);
         mContext = this;
         ButterKnife.bind(this);
@@ -88,6 +92,8 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
             } else {
                 networkToast();
             }
+        } else {
+            mUnitChangeIcon = savedInstanceState.getInt(UNIT_CHANGE_ICON, R.drawable.ic_attach_percentage__white_24dp);
         }
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         emptyView = findViewById(R.id.empty_recyclerview);
@@ -231,9 +237,12 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.my_stocks, menu);
         restoreActionBar();
+        MenuItem menuItem = menu.findItem(R.id.action_change_units);
+        if (menuItem != null){
+            menuItem.setIcon(mUnitChangeIcon);
+        }
         return true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -248,18 +257,24 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                 this.getContentResolver().notifyChange(QuoteProvider.Quotes.CONTENT_URI, null);
                 //check to see if percent change or price change is selected then set
                 //the respective icon
-                if (Utils.showPercent)
-                    item.setIcon(R.drawable.ic_attach_percentage__white_24dp);
-                else
-                    item.setIcon(R.drawable.ic_attach_money_white_24dp);
+                if (Utils.showPercent) {
+                    mUnitChangeIcon = R.drawable.ic_attach_percentage__white_24dp;
+                } else {
+                    mUnitChangeIcon = R.drawable.ic_attach_money_white_24dp;
+                }
+                item.setIcon(mUnitChangeIcon);
                 return true;
             default:
 
                 return super.onOptionsItemSelected(item);
-
         }
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(UNIT_CHANGE_ICON, mUnitChangeIcon);
+        super.onSaveInstanceState(outState);
+    }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
@@ -296,7 +311,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         mCursorAdapter.swapCursor(null);
     }
 
-//this ensures widgets get updated when user adds or deletes a stock
+    //this ensures widgets get updated when user adds or deletes a stock
     private void updateWidgets() {
         ComponentName name = new ComponentName(this, StockHawkAppWidget.class);
         int[] ids = AppWidgetManager.getInstance(this).getAppWidgetIds(name);

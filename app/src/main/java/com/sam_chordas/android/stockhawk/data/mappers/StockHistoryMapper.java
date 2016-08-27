@@ -18,9 +18,6 @@ import java.util.List;
 public class StockHistoryMapper {
     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    private String LOG_TAG = StockHistoryMapper.class.getSimpleName();
-
-
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
     public List<Entry> mapStockHistoryForPastMonth(List<StockHistory> stockHistoryList) {
         List<Entry> entries = new ArrayList<>();

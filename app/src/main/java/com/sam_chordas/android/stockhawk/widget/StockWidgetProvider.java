@@ -24,7 +24,6 @@ public class StockWidgetProvider extends RemoteViewsService {
     private static final String PERCENT_CHANGE = "PERCENT_CHANGE";
 
 
-
     private final String[] STOCK_COLUMNS = {
             QuoteColumns._ID,
             QuoteColumns.BIDPRICE,
@@ -76,14 +75,6 @@ public class StockWidgetProvider extends RemoteViewsService {
                 Binder.restoreCallingIdentity(identityToken);
 
             }
-
-//            private void initializeData() {
-//                stockCollection.clear();
-//                for (int i = 0; i <= 10; i++) {
-//                    stockCollection.add("ListView Item" + i);
-//
-//                }
-//            }
 
 
             @Override

@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -163,7 +162,7 @@ public class MyStocksChartActivity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         calendar = Calendar.getInstance();
         String presentDate = dateFormat.format(calendar.getTime());
-        Log.v(LOG_TAG, "Today's date is " + presentDate);
+//        Log.v(LOG_TAG, "Today's date is " + presentDate);
         return presentDate;
     }
 
@@ -172,7 +171,7 @@ public class MyStocksChartActivity extends AppCompatActivity {
         calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, +-1);
         String oneMonthAgo = dateFormat.format(calendar.getTime());
-        Log.v(LOG_TAG, "The date one month ago from today was " + oneMonthAgo);
+//        Log.v(LOG_TAG, "The date one month ago from today was " + oneMonthAgo);
         return oneMonthAgo;
 
     }

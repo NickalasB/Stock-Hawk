@@ -29,7 +29,6 @@ public class Utils {
         JSONArray resultsArray = null;
 
 
-
         try {
             jsonObject = new JSONObject(JSON);
             if (jsonObject != null && jsonObject.length() != 0) {
@@ -46,7 +45,6 @@ public class Utils {
                         NO_SYMBOL = false;
                         //if the symbol doesn't = "null" then we add it to the database
                         batchOperations.add(buildBatchOperation(jsonObject));
-
 
 
                     }
@@ -122,8 +120,6 @@ public class Utils {
                 builder.withValue(QuoteColumns.ISUP, 1);
             }
             builder.withValue(QuoteColumns.NAME, jsonObject.getString("Name"));
-
-
 
 
         } catch (JSONException e) {

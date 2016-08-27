@@ -72,7 +72,6 @@ public class StocksHistoryService extends GcmTaskService {
     }
 
 
-
     @Override
     public int onRunTask(TaskParams params) {
         Cursor mCursor;
@@ -88,11 +87,11 @@ public class StocksHistoryService extends GcmTaskService {
         }
 
         StringBuilder urlStringBuilder = new StringBuilder();
-                urlStringBuilder.append("https://query.yahooapis.com/v1/public/yql?q=");
-                try {
-                    //base url for the yahoo stock history query
-                    urlStringBuilder.append(URLEncoder.encode("select * from yahoo.finance.historicaldata where symbol =" +
-                            " '" + stockSymbolText.toUpperCase() +"' and startDate = '" + aYearAgo() + "' and endDate ='" + currentDate() + "'", "UTF-8"));
+        urlStringBuilder.append("https://query.yahooapis.com/v1/public/yql?q=");
+        try {
+            //base url for the yahoo stock history query
+            urlStringBuilder.append(URLEncoder.encode("select * from yahoo.finance.historicaldata where symbol =" +
+                    " '" + stockSymbolText.toUpperCase() + "' and startDate = '" + aYearAgo() + "' and endDate ='" + currentDate() + "'", "UTF-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -133,4 +132,5 @@ public class StocksHistoryService extends GcmTaskService {
         }
         return result;
     }
+
 }

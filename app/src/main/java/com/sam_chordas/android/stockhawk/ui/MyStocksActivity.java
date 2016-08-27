@@ -17,7 +17,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -238,7 +237,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         getMenuInflater().inflate(R.menu.my_stocks, menu);
         restoreActionBar();
         MenuItem menuItem = menu.findItem(R.id.action_change_units);
-        if (menuItem != null){
+        if (menuItem != null) {
             menuItem.setIcon(mUnitChangeIcon);
         }
         return true;
@@ -299,11 +298,10 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         mCursorAdapter.swapCursor(data);
         mCursor = data;
         checkAdapterIsEmpty();
-        Log.v(LOG_TAG, "This should return the number of stocks  " + mCursorAdapter.getItemCount());
-        Log.v(LOG_TAG, "This should return a true if list is empty " + checkAdapterIsEmpty());
-//        Log.v(LOG_TAG, "And the name of the stock is... " + QuoteColumns.NAME);
         updateWidgets();
-
+//        Log.v(LOG_TAG, "This should return the number of stocks  " + mCursorAdapter.getItemCount());
+//        Log.v(LOG_TAG, "This should return a true if list is empty " + checkAdapterIsEmpty());
+//        Log.v(LOG_TAG, "And the name of the stock is... " + QuoteColumns.NAME);
     }
 
     @Override

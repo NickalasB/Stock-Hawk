@@ -23,7 +23,7 @@ import com.sam_chordas.android.stockhawk.ui.MyStocksChartActivity;
  */
 public class StockHawkAppWidget extends AppWidgetProvider {
 
-    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int AppWidgetId){
+    static void updateAppWidget(Context context, AppWidgetManager appWidgetManager, int AppWidgetId) {
 
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.stock_hawk_app_widget);
@@ -43,11 +43,11 @@ public class StockHawkAppWidget extends AppWidgetProvider {
 
         //Open details view on tapping any quote from widget
         Intent clickIntentTemplate = new Intent(context, MyStocksChartActivity.class);
-        PendingIntent clickPendingIntentTemplate =PendingIntent.getActivity(context, 0, clickIntentTemplate,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent clickPendingIntentTemplate = PendingIntent.getActivity(context, 0, clickIntentTemplate, PendingIntent.FLAG_UPDATE_CURRENT);
         views.setPendingIntentTemplate(R.id.widget_list, clickPendingIntentTemplate);
         views.setEmptyView(R.id.widget_list, R.id.widget_empty);
 
-        appWidgetManager.updateAppWidget(AppWidgetId,views);
+        appWidgetManager.updateAppWidget(AppWidgetId, views);
     }
 
     @Override
@@ -62,7 +62,6 @@ public class StockHawkAppWidget extends AppWidgetProvider {
 
 
     }
-
 
 
     @Override
@@ -109,7 +108,6 @@ public class StockHawkAppWidget extends AppWidgetProvider {
     }
 
 
-
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
@@ -136,7 +134,6 @@ public class StockHawkAppWidget extends AppWidgetProvider {
         views.setRemoteAdapter(0, R.id.widget_list,
                 new Intent(context, StockWidgetProvider.class));
     }
-
 
 
 }

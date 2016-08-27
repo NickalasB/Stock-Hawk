@@ -5,9 +5,9 @@
 * Supports RTL 
 * Fully integrated accessibility features too. 
 
-Version: This is the first iteration of the app- more features will be added
+**Version:** This is the first iteration of the app- more features will be added
 
-How do I get set up?
+**How do I get set up?**
 To get this app up and running:
 Clone or download the repo link.
 Open up Android Studio and simply select "Open" and navigate to this project.

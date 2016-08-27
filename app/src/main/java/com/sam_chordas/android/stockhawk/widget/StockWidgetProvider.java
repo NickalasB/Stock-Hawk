@@ -40,7 +40,7 @@ public class StockWidgetProvider extends RemoteViewsService {
     static final int INDEX_ID = 0;
     static final int INDEX_BID_PRICE = 1;
     static final int INDEX_SYMBOL = 2;
-    static final int INDEX_COMPANY_NAME = 3;
+    static final int INDEX_NAME = 3;
     static final int INDEX_CHANGE = 4;
     static final int INDEX_CREATED = 5;
     static final int INDEX_PERCENT_CHANGE = 6;
@@ -110,6 +110,9 @@ public class StockWidgetProvider extends RemoteViewsService {
                 }
                 RemoteViews mRemoteViews = new RemoteViews(getPackageName(), R.layout.stock_widget_list_item);
 
+                String name = mCursor.getString(INDEX_NAME);
+                mRemoteViews.setTextViewText(R.id.chart_name_textview, name);
+
                 String symbol = mCursor.getString(INDEX_SYMBOL);
                 mRemoteViews.setTextViewText(R.id.widget_stock_symbol, symbol);
 
@@ -130,6 +133,7 @@ public class StockWidgetProvider extends RemoteViewsService {
                 //this is where we pass the info from the widget
                 final Intent intent = new Intent();
                 intent.putExtra("SYMBOL", symbol);
+                intent.putExtra("NAME", name);
                 intent.putExtra("BIDPRICE", bidPrice);
                 intent.putExtra("PERCENT_CHANGE", percentChange);
 

@@ -96,6 +96,9 @@ public class StockHawkAppWidget extends AppWidgetProvider {
             // Tell the AppWidgetManager to perform an update on the current app widget
             appWidgetManager.updateAppWidget(appWidgetId, views);
             super.onUpdate(context, appWidgetManager, appWidgetIds);
+            //notify the collection view to invalidate its data when you add/remove stocks:
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId, R.id.widget_list);
+
 
         }
     }

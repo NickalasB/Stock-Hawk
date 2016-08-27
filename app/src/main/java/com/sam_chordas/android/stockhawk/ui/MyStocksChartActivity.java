@@ -181,13 +181,13 @@ public class MyStocksChartActivity extends AppCompatActivity {
     // each day for the previous 30 days
     private ArrayList<String> getLabels(List<StockHistory> stockHistories) {
         ArrayList<String> labels = new ArrayList<>();
-            for (int i = stockHistories.size() - 1; i >= 0; i--) {
-                String label = stockHistories.get(i).getDate();
-                labels.add(label);
-            }
-            return labels;
+        for (int i = stockHistories.size() - 1; i >= 0; i--) {
+            String label = stockHistories.get(i).getDate();
+            labels.add(label);
         }
+        return labels;
     }
+}
 
 
 

@@ -1,6 +1,8 @@
 package com.sam_chordas.android.stockhawk.ui;
 
 import android.app.LoaderManager;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -36,6 +38,7 @@ import com.sam_chordas.android.stockhawk.rest.Utils;
 import com.sam_chordas.android.stockhawk.service.StockIntentService;
 import com.sam_chordas.android.stockhawk.service.StockTaskService;
 import com.sam_chordas.android.stockhawk.touch_helper.SimpleItemTouchHelperCallback;
+import com.sam_chordas.android.stockhawk.widget.StockHawkAppWidget;
 
 import butterknife.ButterKnife;
 
@@ -112,7 +115,6 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
                         mChartIntent.putExtra("BIDPRICE", bid_price);
                         mChartIntent.putExtra("PERCENT_CHANGE", percent_change);
                         mChartIntent.putExtra("NAME", name);
-
 
 
                         startActivity(mChartIntent);
@@ -285,7 +287,7 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         Log.v(LOG_TAG, "This should return the number of stocks  " + mCursorAdapter.getItemCount());
         Log.v(LOG_TAG, "This should return a true if list is empty " + checkAdapterIsEmpty());
 //        Log.v(LOG_TAG, "And the name of the stock is... " + QuoteColumns.NAME);
-
+        updateWidgets();
 
     }
 
@@ -294,4 +296,14 @@ public class MyStocksActivity extends AppCompatActivity implements LoaderManager
         mCursorAdapter.swapCursor(null);
     }
 
+//this ensures widgets get updated when user adds or deletes a stock
+    private void updateWidgets() {
+        ComponentName name = new ComponentName(this, StockHawkAppWidget.class);
+        int[] ids = AppWidgetManager.getInstance(this).getAppWidgetIds(name);
+        Intent intent = new Intent(this, StockHawkAppWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent);
+
+    }
 }

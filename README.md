@@ -26,4 +26,6 @@ You can also long-press on the home screen to gain access to the widgets availab
 Scroll to the Stock Hawk widget, hold down, and drag to your main screen. 
 The widget can be resized by long-pressing on the widget and dragging the edges.
 
+**ENJOY**
+
 More features will be added. This app is being built as part of [Udacity's Android Nanodegree program]((https://www.udacity.com/nanodegree))

@@ -1,29 +1,28 @@
-Quick summary: Hot Movies is an app that allows you to discover the most popular and top rated movies out there using data from TheMovieDB.org
+**Quick summary:** Stock Hawk is an app that puts the power of Wall Street in the palm of your hands. 
+* Get up the minute data on all your favorite stocks and even chart the closing prices for the last 30 trading days on an animated graph. 
+* There's even a widget so you can check your stock without opening the app.
+* Supports RTL 
+* Fully integrated accessibility features too. 
 
 Version: This is the first iteration of the app- more features will be added
 
 How do I get set up?
 To get this app up and running:
-Open up Android Studio and simply select "Import Project"
-Once you have the app imported you will need to obtain your an API Key to access the movie data
-You can get a MovieDB API key from themoviedb.org
-Once you've obtained an API Key add it to you "build.gradle" file in your "Gradle Scripts" class like so
-    buildTypes.each {
-        it.buildConfigField 'String', 'MOVIE_DB_API_KEY', "\"Your API Key here\""
+Clone or download the repo link.
+Open up Android Studio and simply select "Open" and navigate to this project.
 
-    }
-}
+
 Once you've got that configured choose Run 'app' from the Run dropdown menu.
-Navigating the App
-When you launch the app you will be presented with a GridView of movie posters.
-You can choose to view either the most popular movies, the highest rated movies, or a list of favorite movies by selecting your preferred option in the options menu in the upper right-hand corner.
-Click on a movie that interests you and you'll be taken to a new activity or, if your're on a tablet, see a new display that will give you some key info about your selected movie:
-Title
-Release date
-Average rating
-Total ratings
-Movie Summary
-Movie trailers
-Movie reviews
-Pretty cool!
-More features will be added. This app is being built as part of Udacity's Android Nanodegree program
+
+**Navigating the App**
+
+When you launch the APP you will see a few pre-populated stocks to get you started. 
+The menu button up top toggles between % change and price change. 
+Feel free to click on the stocks and check their current and historical info.
+To add a new stock simply click on the floating action button at the bottom of the screen with the "+" sign.
+To delete a stock simply swipe to the right or the left.
+You can also long-press on the home screen to gain access to the widgets available on your device.
+Scroll to the Stock Hawk widget, hold down, and drag to your main screen. 
+The widget can be resized by long-pressing on the widget and dragging the edges.
+
+More features will be added. This app is being built as part of [Udacity's Android Nanodegree program]((https://www.udacity.com/nanodegree))
